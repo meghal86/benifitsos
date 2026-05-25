@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BenefitsOS — AI Operating System for Employee Benefits</title>
+<title>BenefitsOS — AI-Powered Dependent Eligibility Audit for Benefits Brokers</title>
+<meta name="description" content="AI-powered dependent eligibility audits for benefits brokers. Find ineligible dependents in 4 weeks with HIPAA-compliant outreach, verification, reporting, and billing.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -64,11 +65,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .hero-illo svg{width:100%;height:auto;display:block;filter:drop-shadow(0 30px 60px rgba(107,79,187,0.12));}
 
 /* PROOF */
-.proof-bar{background:var(--white);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);padding:22px 52px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;}
-.proof-item{text-align:center;padding:0 38px;}
+.proof-bar{background:var(--white);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);padding:22px 52px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:center;justify-content:center;}
+.proof-item{text-align:center;padding:0 20px;border-right:1px solid var(--border);}
+.proof-item:last-child{border-right:none;}
 .proof-val{font-family:var(--serif);font-size:30px;letter-spacing:-.5px;line-height:1;}
 .proof-lbl{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:4px;}
-.proof-div{width:1px;height:44px;background:var(--border);}
+.proof-div{display:none;width:1px;height:44px;background:var(--border);}
 
 section{padding:96px 52px;}
 section,.product-process{scroll-margin-top:78px;}
@@ -85,6 +87,8 @@ section,.product-process{scroll-margin-top:78px;}
 .prod-card:hover{border-color:var(--p300);box-shadow:0 8px 28px rgba(107,79,187,0.1);transform:translateY(-3px);}
 .prod-card:focus-visible{outline:3px solid var(--p200);outline-offset:3px;}
 .prod-card.star{background:var(--p500);border-color:var(--p500);}
+.prod-card.roadmap{opacity:.5;cursor:default;}
+.prod-card.roadmap:hover{border-color:var(--border);box-shadow:none;transform:none;}
 .prod-illo{width:100%;height:80px;margin-bottom:14px;}
 .prod-num{font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--placeholder);margin-bottom:10px;}
 .prod-card.star .prod-num{color:rgba(255,255,255,0.5);}
@@ -94,6 +98,10 @@ section,.product-process{scroll-margin-top:78px;}
 .prod-card.star .prod-desc{color:rgba(255,255,255,0.78);}
 .prod-pill{display:inline-block;margin-top:12px;font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--p500);background:var(--p100);border:1px solid var(--p200);padding:2px 8px;border-radius:10px;}
 .prod-card.star .prod-pill{color:#fff;background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.3);}
+.prod-status{display:inline-block;margin:0 0 10px;font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--ok);background:var(--ok-bg);border:1px solid var(--ok-border);padding:2px 8px;border-radius:10px;}
+.prod-card.star .prod-status{color:#fff;background:rgba(22,163,74,0.28);border-color:rgba(255,255,255,0.34);}
+.prod-card.roadmap .prod-status{color:var(--muted);background:var(--off);border-color:var(--border);}
+.waitlist-btn{display:inline-block;margin-top:14px;font-size:12px;font-weight:500;color:var(--p500);text-decoration:none;border:1px solid var(--p200);border-radius:8px;padding:7px 10px;background:#fff;}
 .product-process{margin-top:24px;background:var(--white);border:1.5px solid var(--border);border-radius:18px;padding:28px;display:grid;grid-template-columns:0.56fr 1.44fr;gap:28px;align-items:stretch;box-shadow:0 18px 44px rgba(107,79,187,0.08);}
 .process-copy{display:flex;flex-direction:column;justify-content:space-between;gap:24px;}
 .process-label{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--p500);margin-bottom:10px;}
@@ -139,6 +147,11 @@ section,.product-process{scroll-margin-top:78px;}
 .price-card{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:28px;transition:all .2s;}
 .price-card:hover{border-color:var(--p300);}
 .price-card.feat{background:var(--p500);border-color:var(--p500);position:relative;}
+.price-card.audit-primary{padding:34px;border-color:var(--p300);box-shadow:0 20px 52px rgba(107,79,187,0.13);transform:scale(1.03);}
+.price-card.future{opacity:.5;background:var(--off);}
+.price-card.future:hover{border-color:var(--border);}
+.price-card.future .pbtn{background:transparent;}
+.available-badge{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:1.4px;text-transform:uppercase;color:var(--ok);background:var(--ok-bg);border:1px solid var(--ok-border);padding:4px 10px;border-radius:20px;margin-bottom:10px;}
 .fbadge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;background:var(--ink);color:#fff;padding:4px 12px;border-radius:20px;white-space:nowrap;}
 .pname{font-size:13px;font-weight:600;margin-bottom:3px;}
 .price-card.feat .pname{color:#fff;}
@@ -146,6 +159,7 @@ section,.product-process{scroll-margin-top:78px;}
 .price-card.feat .pprice{color:#fff;}
 .pper{font-size:13px;color:var(--muted);}
 .price-card.feat .pper{color:rgba(255,255,255,0.65);}
+.coming-note{font-family:var(--mono);font-size:10px;letter-spacing:1.1px;text-transform:uppercase;color:var(--placeholder);margin-top:6px;}
 .pdiv{height:1px;background:var(--border);margin:20px 0;}
 .price-card.feat .pdiv{background:rgba(255,255,255,0.25);}
 .pfeat{font-size:13px;color:var(--muted);padding:6px 0;display:flex;align-items:center;gap:8px;}
@@ -208,12 +222,12 @@ footer{background:var(--white);border-top:1px solid var(--border-soft);padding:5
   .hero{padding:112px 18px 46px;}
   .hero-h1{font-size:clamp(40px,13vw,58px);line-height:1.02;}
   .hero-sub{font-size:16px;line-height:1.65;margin-bottom:28px;}
-  .hero-ctas{gap:10px;margin-bottom:42px;}
-  .btn-hero,.btn-hero-outline{flex:1;justify-content:center;padding:12px 14px;font-size:14px;}
+  .hero-ctas{gap:10px;margin-bottom:42px;flex-direction:column;width:100%;max-width:320px;}
+  .btn-hero,.btn-hero-outline{width:100%;justify-content:center;padding:12px 14px;font-size:14px;white-space:nowrap;}
   .hero-illo{max-width:560px;overflow:visible;}
   .hero-illo svg{width:100%;margin-left:0;}
   .proof-bar{display:grid;grid-template-columns:1fr 1fr;padding:22px 18px;gap:0;border-bottom:none;}
-  .proof-item{padding:18px 10px;border-bottom:1px solid var(--border-soft);}
+  .proof-item{padding:18px 10px;border-right:none;border-bottom:1px solid var(--border-soft);}
   .proof-item:last-child{grid-column:1/-1;}
   .proof-div{display:none;}
   .proof-val{font-size:28px;}
@@ -277,10 +291,10 @@ footer{background:var(--white);border-top:1px solid var(--border-soft);padding:5
     <div class="hero-grid"></div>
   </div>
   <div class="hero-eyebrow"><div class="ed"></div><div class="et">Private beta · Texas brokers · HIPAA compliant</div></div>
-  <h1 class="hero-h1">The <em>AI operating system</em><br>for employee benefits</h1>
-  <p class="hero-sub">From employer intake and quote normalization through carrier negotiation, contract review, stop-loss modeling, billing audit, and pharmacy analytics. One platform. 40 fewer hours per case.</p>
+  <h1 class="hero-h1">Stop paying for dependents<br><em>who aren't eligible</em></h1>
+  <p class="hero-sub">9.5% of covered dependents are typically ineligible — over-age children, ex-spouses, deceased. BenefitsOS finds them in 4 weeks instead of 14, with zero HR chasing paperwork.</p>
   <div class="hero-ctas">
-    <a class="btn-hero" href="/demo">Book a demo →</a>
+    <a class="btn-hero" href="/demo">Book audit pilot →</a>
     <a class="btn-hero-outline" href="#how">See how it works</a>
   </div>
 
@@ -394,60 +408,65 @@ footer{background:var(--white);border-top:1px solid var(--border-soft);padding:5
 
 <!-- PROOF -->
 <div class="proof-bar">
-  <div class="proof-item"><div class="proof-val" style="color:var(--p500);">$100B+</div><div class="proof-lbl">Broker commission market</div></div>
+  <div class="proof-item"><div class="proof-val" style="color:var(--p500);">9.5%</div><div class="proof-lbl">Avg dependents found ineligible</div></div>
   <div class="proof-div"></div>
-  <div class="proof-item"><div class="proof-val" style="color:var(--amber);">40 hrs</div><div class="proof-lbl">Manual work saved per case</div></div>
+  <div class="proof-item"><div class="proof-val" style="color:var(--amber);">$7,000</div><div class="proof-lbl">Annual cost per ineligible dependent</div></div>
   <div class="proof-div"></div>
-  <div class="proof-item"><div class="proof-val" style="color:var(--teal);">10%</div><div class="proof-lbl">Stop-loss pressure in 2025</div></div>
+  <div class="proof-item"><div class="proof-val" style="color:var(--teal);">4 weeks</div><div class="proof-lbl">Audit completion vs 14 weeks manual</div></div>
   <div class="proof-div"></div>
-  <div class="proof-item"><div class="proof-val" style="color:var(--coral);">13</div><div class="proof-lbl">Agents across renewal workflow</div></div>
+  <div class="proof-item"><div class="proof-val" style="color:var(--coral);">2,086%</div><div class="proof-lbl">Average audit ROI</div></div>
   <div class="proof-div"></div>
-  <div class="proof-item"><div class="proof-val" style="color:var(--ink);">HIPAA</div><div class="proof-lbl">Built for benefits data</div></div>
+  <div class="proof-item"><div class="proof-val" style="color:var(--ink);">HIPAA</div><div class="proof-lbl">BAA signed on all vendors</div></div>
 </div>
 
 <!-- PRODUCTS -->
 <section class="products-bg" id="products">
   <div class="container">
     <div class="centered fade">
-      <div class="sec-ey">Five products. One platform.</div>
-      <h2 class="sec-h" style="max-width:580px;margin:0 auto 14px;">Everything a broker needs, <em style="font-style:italic;color:var(--p500);">fully automated</em></h2>
-      <p class="sec-sub" style="margin:0 auto;">Each product is standalone. Each feeds the next. Click any product to see its end-to-end process diagram.</p>
+      <div class="sec-ey">One product now. One platform vision.</div>
+      <h2 class="sec-h" style="max-width:580px;margin:0 auto 14px;">We do one thing brilliantly today. <em style="font-style:italic;color:var(--p500);">Here's what's next.</em></h2>
+      <p class="sec-sub" style="margin:0 auto;">Dependent Eligibility Audit is available now in private beta. Products 02–05 are roadmap modules, not active products.</p>
     </div>
     <div class="products-horiz fade">
       <div class="prod-card star" role="button" tabindex="0" data-product="audit" aria-pressed="true">
         <svg class="prod-illo" viewBox="0 0 120 80" fill="none"><rect x="20" y="14" width="50" height="58" rx="6" fill="rgba(255,255,255,0.95)"/><rect x="28" y="24" width="30" height="4" rx="2" fill="#AE98E4"/><rect x="28" y="33" width="24" height="3" rx="1.5" fill="#D4C8F4"/><rect x="28" y="40" width="28" height="3" rx="1.5" fill="#D4C8F4"/><circle cx="78" cy="50" r="20" fill="#E8943A"/><path d="M70 50 l6 6 l12 -13" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
         <div class="prod-num">01</div>
+        <div class="prod-status">Available now · Private beta</div>
         <div class="prod-name">Dependent Eligibility Audit</div>
         <div class="prod-desc">AI verifies every dependent. Claude Vision reads birth & marriage certs. 6-wave outreach. Avg 9.5% ineligible found.</div>
         <div class="prod-pill">Launch first</div>
       </div>
-      <div class="prod-card" role="button" tabindex="0" data-product="renewal" aria-pressed="false">
+      <div class="prod-card roadmap" id="waitlist">
         <svg class="prod-illo" viewBox="0 0 120 80" fill="none"><rect x="30" y="12" width="44" height="56" rx="6" fill="#fff" stroke="#E6E1F5" stroke-width="1.5"/><rect x="38" y="22" width="28" height="4" rx="2" fill="#6B4FBB"/><rect x="38" y="31" width="22" height="3" rx="1.5" fill="#D4C8F4"/><rect x="38" y="38" width="26" height="3" rx="1.5" fill="#D4C8F4"/><rect x="38" y="45" width="20" height="3" rx="1.5" fill="#D4C8F4"/><circle cx="80" cy="44" r="18" fill="#8B70D4"/><path d="M73 44 h14 M80 37 v14" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>
         <div class="prod-num">02</div>
+        <div class="prod-status">Q3 2026 · Join waitlist</div>
         <div class="prod-name">Benefits Renewal</div>
-        <div class="prod-desc">RFP, quote normalization, financial modeling, negotiation playbook, contract review. 40+ hours saved per case.</div>
-        <div class="prod-pill">Core platform</div>
+        <div class="prod-desc">RFP workflow, financial modeling, negotiation playbook, and contract review for future renewal operations.</div>
+        <a class="waitlist-btn" href="#waitlist">Join waitlist →</a>
       </div>
-      <div class="prod-card" role="button" tabindex="0" data-product="pharmacy" aria-pressed="false">
+      <div class="prod-card roadmap">
         <svg class="prod-illo" viewBox="0 0 120 80" fill="none"><rect x="36" y="20" width="48" height="40" rx="20" fill="#3BA89A" transform="rotate(45 60 40)"/><rect x="52" y="36" width="16" height="8" rx="4" fill="#fff"/><circle cx="44" cy="30" r="6" fill="#7FCFC2"/><circle cx="78" cy="52" r="6" fill="#7FCFC2"/></svg>
         <div class="prod-num">03</div>
+        <div class="prod-status">2027 · Concept</div>
         <div class="prod-name">Pharmacy Analytics</div>
         <div class="prod-desc">MediSpan AWP engine, Rx rebate audit, specialty drug exposure flagging. Built for self-funded employers.</div>
-        <div class="prod-pill">Self-funded</div>
+        <a class="waitlist-btn" href="#waitlist">Join waitlist →</a>
       </div>
-      <div class="prod-card" role="button" tabindex="0" data-product="post" aria-pressed="false">
+      <div class="prod-card roadmap">
         <svg class="prod-illo" viewBox="0 0 120 80" fill="none"><rect x="30" y="44" width="12" height="22" rx="3" fill="#D4C8F4"/><rect x="48" y="32" width="12" height="34" rx="3" fill="#AE98E4"/><rect x="66" y="22" width="12" height="44" rx="3" fill="#8B70D4"/><rect x="84" y="36" width="12" height="30" rx="3" fill="#6B4FBB"/><path d="M30 40 L54 30 L72 18 L90 30" stroke="#E8943A" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <div class="prod-num">04</div>
-        <div class="prod-name">Post-Enrollment</div>
-        <div class="prod-desc">Monthly billing reconciliation, claims analytics, stop-loss modeling, ACA tracking. Year-round engagement.</div>
-        <div class="prod-pill">Recurring</div>
+        <div class="prod-status">2027 · Concept</div>
+        <div class="prod-name">Post-Enrollment Services</div>
+        <div class="prod-desc">Monthly billing reconciliation, claims analytics, stop-loss monitoring, ACA tracking. Year-round engagement.</div>
+        <a class="waitlist-btn" href="#waitlist">Join waitlist →</a>
       </div>
-      <div class="prod-card" role="button" tabindex="0" data-product="employee" aria-pressed="false">
+      <div class="prod-card roadmap">
         <svg class="prod-illo" viewBox="0 0 120 80" fill="none"><circle cx="60" cy="30" r="14" fill="#8B70D4"/><path d="M38 66 C38 52 50 48 60 48 C70 48 82 52 82 66" fill="#D4C8F4"/><circle cx="88" cy="26" r="12" fill="#E8943A"/><text x="88" y="31" font-family="DM Sans" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">?</text></svg>
         <div class="prod-num">05</div>
+        <div class="prod-status">2027 · Concept</div>
         <div class="prod-name">Employee Decision Support</div>
         <div class="prod-desc">Open enrollment AI: 5 questions, personalized plan pick. Reduces HR support calls 30–40%.</div>
-        <div class="prod-pill">Open enrollment</div>
+        <a class="waitlist-btn" href="#waitlist">Join waitlist →</a>
       </div>
     </div>
     <div class="product-process fade" id="product-process" aria-live="polite">
@@ -470,128 +489,113 @@ footer{background:var(--white);border-top:1px solid var(--border-soft);padding:5
   </div>
 </section>
 
-<!-- HOW IT WORKS — Fly.io alternating illustrated blocks -->
+<!-- HOW IT WORKS — audit workflow -->
 <section class="how-bg" id="how">
   <div class="container">
-
-    <!-- Block 1: Data intake -->
     <div class="fblock fade">
       <div>
-        <div class="ftag">Step 1 — Employer intake</div>
-        <h2 class="fh">Upload the case file.<br><em>We structure the renewal.</em></h2>
-        <p class="fp">Drop the census, current plan, contribution strategy, claims summary, and carrier responses. BenefitsOS turns the messy renewal packet into a clean case workspace with funding type, renewal dates, plan design, stop-loss exposure, and review flags.</p>
+        <div class="ftag">Step 1 — Data intake</div>
+        <h2 class="fh">Upload your roster.<br><em>We handle the risk scoring.</em></h2>
+        <p class="fp">Connect ADP via API or drop a CSV. BenefitsOS imports the full dependent roster, immediately risk-scores every dependent — age violations, address mismatches, enrollment anomalies — and cross-checks against USPS and the SSA Death Master File before a single email is sent.</p>
         <a class="flink" href="#docs">See the intake engine →</a>
       </div>
       <div class="fillo-wrap">
         <svg viewBox="0 0 440 280" fill="none">
-          <defs><linearGradient id="b1p" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8B70D4"/><stop offset="1" stop-color="#6B4FBB"/></linearGradient></defs>
-          <!-- upload zone -->
-          <rect x="30" y="40" width="180" height="200" rx="14" fill="#fff" stroke="#D4C8F4" stroke-width="2" stroke-dasharray="8 6"/>
-          <circle cx="120" cy="100" r="26" fill="#EDE8FC"/>
-          <path d="M120 90 v22 M111 99 l9 -9 l9 9" stroke="#6B4FBB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          <rect x="70" y="136" width="100" height="8" rx="4" fill="#2D2545"/>
-          <rect x="84" y="152" width="72" height="6" rx="3" fill="#A89EC8"/>
-          <rect x="60" y="186" width="120" height="32" rx="8" fill="#6B4FBB"/>
-          <text x="120" y="206" font-family="DM Sans" font-size="12" font-weight="600" fill="#fff" text-anchor="middle">Import roster</text>
-          <!-- results stack -->
-          <rect x="240" y="44" width="170" height="44" rx="10" fill="#FEF2F2" stroke="#FECACA" stroke-width="1.5"/>
-          <circle cx="262" cy="66" r="11" fill="#fff" stroke="#DC2626" stroke-width="1.5"/><path d="M258 62 l8 8 M266 62 l-8 8" stroke="#DC2626" stroke-width="1.5" stroke-linecap="round"/>
-          <text x="282" y="62" font-family="DM Sans" font-size="11" font-weight="600" fill="#DC2626">Auto-ineligible</text>
-          <text x="282" y="76" font-family="DM Mono" font-size="9" fill="#6B5F8A">12 · age 26+</text>
-          <rect x="240" y="98" width="170" height="44" rx="10" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1.5"/>
-          <circle cx="262" cy="120" r="11" fill="#fff" stroke="#D97706" stroke-width="1.5"/><path d="M262 115 v6 M262 124 v.5" stroke="#D97706" stroke-width="1.5" stroke-linecap="round"/>
-          <text x="282" y="116" font-family="DM Sans" font-size="11" font-weight="600" fill="#D97706">High risk</text>
-          <text x="282" y="130" font-family="DM Mono" font-size="9" fill="#6B5F8A">132 · address gap</text>
-          <rect x="240" y="152" width="170" height="44" rx="10" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1.5"/>
-          <circle cx="262" cy="174" r="11" fill="#fff" stroke="#16A34A" stroke-width="1.5"/><path d="M258 174 l3 3 l5 -6" stroke="#16A34A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          <text x="282" y="170" font-family="DM Sans" font-size="11" font-weight="600" fill="#16A34A">Low risk</text>
-          <text x="282" y="184" font-family="DM Mono" font-size="9" fill="#6B5F8A">591 · standard</text>
-          <rect x="240" y="206" width="170" height="34" rx="9" fill="#F8F6FF" stroke="#E6E1F5"/>
-          <text x="325" y="227" font-family="DM Mono" font-size="9" fill="#6B5F8A" text-anchor="middle">USPS + SSA DMF checked</text>
+          <rect x="44" y="44" width="160" height="190" rx="16" fill="#fff" stroke="#D4C8F4" stroke-width="2" stroke-dasharray="8 6"/>
+          <circle cx="124" cy="98" r="26" fill="#EDE8FC"/>
+          <path d="M124 88 v22 M115 97 l9 -9 l9 9" stroke="#6B4FBB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <rect x="78" y="136" width="92" height="8" rx="4" fill="#2D2545"/>
+          <rect x="88" y="154" width="72" height="6" rx="3" fill="#A89EC8"/>
+          <rect x="72" y="188" width="104" height="30" rx="8" fill="#6B4FBB"/>
+          <text x="124" y="208" font-family="DM Sans" font-size="12" font-weight="600" fill="#fff" text-anchor="middle">Import roster</text>
+          <rect x="236" y="48" width="170" height="48" rx="11" fill="#FEF2F2" stroke="#FECACA" stroke-width="1.5"/>
+          <text x="258" y="68" font-family="DM Sans" font-size="12" font-weight="700" fill="#DC2626">Auto-ineligible</text>
+          <text x="258" y="84" font-family="DM Mono" font-size="10" fill="#6B5F8A">12 · age 26+</text>
+          <rect x="236" y="112" width="170" height="48" rx="11" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1.5"/>
+          <text x="258" y="132" font-family="DM Sans" font-size="12" font-weight="700" fill="#D97706">High risk</text>
+          <text x="258" y="148" font-family="DM Mono" font-size="10" fill="#6B5F8A">132 · address gap</text>
+          <rect x="236" y="176" width="170" height="48" rx="11" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1.5"/>
+          <text x="258" y="196" font-family="DM Sans" font-size="12" font-weight="700" fill="#16A34A">Low risk</text>
+          <text x="258" y="212" font-family="DM Mono" font-size="10" fill="#6B5F8A">591 · standard</text>
         </svg>
       </div>
     </div>
 
-    <!-- Block 2: Outreach (flipped) -->
     <div class="fblock flip fade">
       <div>
-        <div class="ftag">Step 2 — Bid workflow</div>
-        <h2 class="fh">Carrier follow-up.<br><em>Without the spreadsheet chaos.</em></h2>
-        <p class="fp">BenefitsOS tracks RFP status, quote deadlines, carrier responses, missing fields, renewal deltas, and broker sign-off. Quotes are normalized into one schema before any recommendation, negotiation memo, or employer presentation is generated.</p>
-        <a class="flink" href="#docs">View the bid workflow →</a>
+        <div class="ftag">Step 2 — Automated outreach</div>
+        <h2 class="fh">Six waves.<br><em>Zero manual work.</em></h2>
+        <p class="fp">Inngest orchestrates email, SMS, physical mail, HR escalation, and a termination notice — automatically. Every wave is personalised. Real-time tracking. The sequence stops the moment an employee completes verification.</p>
+        <a class="flink" href="#docs">View the outreach flow →</a>
       </div>
       <div class="fillo-wrap">
-        <svg viewBox="0 0 440 280" fill="none">
-          <!-- vertical timeline -->
-          <line x1="60" y1="40" x2="60" y2="240" stroke="#D4C8F4" stroke-width="2.5"/>
-          <!-- wave 1 email done -->
-          <circle cx="60" cy="56" r="12" fill="#6B4FBB"/><path d="M55 56 l3 3 l7 -8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          <rect x="88" y="42" width="320" height="32" rx="9" fill="#EDE8FC" stroke="#D4C8F4"/>
-          <rect x="100" y="52" width="24" height="12" rx="3" fill="#6B4FBB"/>
-          <text x="134" y="62" font-family="DM Sans" font-size="11" font-weight="600" fill="#2D2545">Day 0 · Email — initial notice + portal link</text>
-          <!-- wave 2 sms done -->
-          <circle cx="60" cy="104" r="12" fill="#6B4FBB"/><path d="M55 104 l3 3 l7 -8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          <rect x="88" y="90" width="320" height="32" rx="9" fill="#EDE8FC" stroke="#D4C8F4"/>
-          <rect x="100" y="100" width="24" height="12" rx="3" fill="#3BA89A"/>
-          <text x="134" y="110" font-family="DM Sans" font-size="11" font-weight="600" fill="#2D2545">Day 3 · SMS — Twilio, non-responders only</text>
-          <!-- wave 3 active -->
-          <circle cx="60" cy="152" r="13" fill="#fff" stroke="#6B4FBB" stroke-width="3"/><circle cx="60" cy="152" r="5" fill="#6B4FBB"/>
-          <rect x="88" y="137" width="320" height="34" rx="9" fill="#F8F6FF" stroke="#6B4FBB" stroke-width="2"/>
-          <rect x="100" y="148" width="24" height="12" rx="3" fill="#8B70D4"/>
-          <text x="134" y="158" font-family="DM Sans" font-size="11" font-weight="600" fill="#6B4FBB">Day 7 · Reminder — active · 23 pending</text>
-          <!-- wave 4 pending -->
-          <circle cx="60" cy="200" r="12" fill="#fff" stroke="#D4C8F4" stroke-width="2"/>
-          <rect x="88" y="186" width="320" height="32" rx="9" fill="#FAFAFD" stroke="#E6E1F5"/>
-          <rect x="100" y="196" width="24" height="12" rx="3" fill="#E8943A"/>
-          <text x="134" y="206" font-family="DM Sans" font-size="11" fill="#A89EC8">Day 14 · Physical mail — Lob, $1.50/letter</text>
-          <!-- wave 5/6 collapsed -->
-          <circle cx="60" cy="234" r="9" fill="#fff" stroke="#D4C8F4" stroke-width="2"/>
-          <text x="88" y="238" font-family="DM Mono" font-size="10" fill="#A89EC8">Day 21 HR · Day 28 termination →</text>
+        <svg viewBox="0 0 440 300" fill="none">
+          <line x1="58" y1="38" x2="58" y2="260" stroke="#D4C8F4" stroke-width="2.5"/>
+          <circle cx="58" cy="52" r="12" fill="#6B4FBB"/><text x="54" y="57" font-family="DM Sans" font-size="13" fill="#fff">✓</text>
+          <rect x="86" y="36" width="320" height="34" rx="9" fill="#EDE8FC" stroke="#D4C8F4"/><text x="106" y="58" font-family="DM Sans" font-size="12" font-weight="600" fill="#2D2545">Day 0 · Email — initial notice + portal link</text>
+          <circle cx="58" cy="94" r="12" fill="#6B4FBB"/><text x="54" y="99" font-family="DM Sans" font-size="13" fill="#fff">✓</text>
+          <rect x="86" y="78" width="320" height="34" rx="9" fill="#EDE8FC" stroke="#D4C8F4"/><text x="106" y="100" font-family="DM Sans" font-size="12" font-weight="600" fill="#2D2545">Day 3 · SMS — non-responders only</text>
+          <circle cx="58" cy="138" r="13" fill="#fff" stroke="#6B4FBB" stroke-width="3"/><circle cx="58" cy="138" r="5" fill="#6B4FBB"/>
+          <rect x="86" y="120" width="320" height="38" rx="10" fill="#F8F6FF" stroke="#6B4FBB" stroke-width="2"/><text x="106" y="144" font-family="DM Sans" font-size="12" font-weight="700" fill="#6B4FBB">Day 7 · Email reminder — active</text>
+          <circle cx="58" cy="182" r="12" fill="#fff" stroke="#D4C8F4" stroke-width="2"/><text x="54" y="187" font-family="DM Sans" font-size="13" fill="#A89EC8">○</text>
+          <rect x="86" y="166" width="320" height="34" rx="9" fill="#FAFAFD" stroke="#E6E1F5"/><text x="106" y="188" font-family="DM Sans" font-size="12" fill="#A89EC8">Day 14 · Physical mail — Lob, $1.50/letter</text>
+          <circle cx="58" cy="224" r="12" fill="#fff" stroke="#D4C8F4" stroke-width="2"/><text x="54" y="229" font-family="DM Sans" font-size="13" fill="#A89EC8">○</text>
+          <rect x="86" y="208" width="320" height="34" rx="9" fill="#FAFAFD" stroke="#E6E1F5"/><text x="106" y="230" font-family="DM Sans" font-size="12" fill="#A89EC8">Day 21 · HR escalation</text>
+          <circle cx="58" cy="266" r="12" fill="#fff" stroke="#D4C8F4" stroke-width="2"/><text x="54" y="271" font-family="DM Sans" font-size="13" fill="#A89EC8">○</text>
+          <rect x="86" y="250" width="320" height="34" rx="9" fill="#FAFAFD" stroke="#E6E1F5"/><text x="106" y="272" font-family="DM Sans" font-size="12" fill="#A89EC8">Day 28 · Termination notice</text>
         </svg>
       </div>
     </div>
 
-    <!-- Block 3: AI verification -->
     <div class="fblock fade">
       <div>
-        <div class="ftag">Step 3 — Negotiation intelligence</div>
-        <h2 class="fh">Claude reads every<br>quote and contract. <em>Then it finds leverage.</em></h2>
-        <p class="fp">AI extracts quote terms, stop-loss details, contract clauses, and renewal deltas. The negotiation agent compares the case against carrier concession history and generates counter-offers, BAFO requests, clause pushbacks, and the employer recommendation memo.</p>
+        <div class="ftag">Step 3 — AI verification</div>
+        <h2 class="fh">Claude reads every document.<br><em>In seconds.</em></h2>
+        <p class="fp">Claude Vision extracts names, dates, and relationships from birth and marriage certificates. Fraud detection runs metadata analysis plus visual pixel inspection. High-confidence cases auto-resolve. Low-confidence cases route to the broker review queue.</p>
         <a class="flink" href="#docs">Read the technical docs →</a>
       </div>
       <div class="fillo-wrap" style="background:linear-gradient(135deg,#5238A8,#8B70D4);border-color:#8B70D4;">
         <svg viewBox="0 0 440 280" fill="none">
-          <!-- document being scanned -->
-          <rect x="40" y="50" width="150" height="180" rx="12" fill="#fff"/>
-          <rect x="58" y="70" width="80" height="8" rx="4" fill="#6B4FBB"/>
-          <rect x="58" y="86" width="114" height="5" rx="2.5" fill="#D4C8F4"/>
-          <rect x="58" y="98" width="100" height="5" rx="2.5" fill="#D4C8F4"/>
-          <rect x="58" y="120" width="60" height="5" rx="2.5" fill="#A89EC8"/>
-          <rect x="58" y="132" width="114" height="5" rx="2.5" fill="#EDE8FC"/>
-          <rect x="58" y="144" width="90" height="5" rx="2.5" fill="#EDE8FC"/>
-          <rect x="58" y="170" width="60" height="5" rx="2.5" fill="#A89EC8"/>
-          <rect x="58" y="182" width="114" height="5" rx="2.5" fill="#EDE8FC"/>
-          <!-- scan line -->
-          <rect x="40" y="135" width="150" height="3" fill="#E8943A" opacity="0.9"/>
-          <rect x="40" y="130" width="150" height="14" fill="url(#scanG)" opacity="0.3"/>
-          <defs><linearGradient id="scanG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E8943A" stop-opacity="0"/><stop offset="1" stop-color="#E8943A"/></linearGradient></defs>
-          <!-- extracted fields panel -->
-          <rect x="220" y="50" width="180" height="100" rx="12" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.25)"/>
-          <text x="236" y="72" font-family="DM Mono" font-size="9" letter-spacing="1" fill="rgba(255,255,255,0.6)">EXTRACTED</text>
+          <rect x="42" y="44" width="150" height="188" rx="14" fill="#fff"/>
+          <rect x="62" y="68" width="82" height="8" rx="4" fill="#6B4FBB"/>
+          <rect x="62" y="88" width="108" height="5" rx="2.5" fill="#D4C8F4"/>
+          <rect x="62" y="102" width="96" height="5" rx="2.5" fill="#D4C8F4"/>
+          <rect x="62" y="132" width="112" height="5" rx="2.5" fill="#EDE8FC"/>
+          <rect x="62" y="146" width="86" height="5" rx="2.5" fill="#EDE8FC"/>
+          <rect x="42" y="124" width="150" height="4" fill="#E8943A"/>
+          <rect x="218" y="44" width="182" height="116" rx="14" fill="rgba(255,255,255,0.14)" stroke="rgba(255,255,255,0.28)"/>
+          <text x="236" y="68" font-family="DM Mono" font-size="9" letter-spacing="1" fill="rgba(255,255,255,0.62)">EXTRACTED FIELDS</text>
           <text x="236" y="92" font-family="DM Sans" font-size="11" fill="#fff">Name: James Smith</text>
-          <text x="236" y="110" font-family="DM Sans" font-size="11" fill="#fff">DOB: 1999 · age 26</text>
-          <text x="236" y="128" font-family="DM Sans" font-size="11" fill="#fff">Parent: R. Smith ✓</text>
-          <!-- confidence + fraud -->
-          <rect x="220" y="162" width="86" height="68" rx="12" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.25)"/>
-          <text x="263" y="195" font-family="DM Serif Display" font-size="24" fill="#fff" text-anchor="middle">94%</text>
-          <text x="263" y="214" font-family="DM Mono" font-size="8" letter-spacing="1" fill="rgba(255,255,255,0.6)" text-anchor="middle">CONFIDENCE</text>
-          <rect x="314" y="162" width="86" height="68" rx="12" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.25)"/>
-          <text x="357" y="195" font-family="DM Serif Display" font-size="24" fill="#fff" text-anchor="middle">8</text>
-          <text x="357" y="214" font-family="DM Mono" font-size="8" letter-spacing="1" fill="rgba(255,255,255,0.6)" text-anchor="middle">FRAUD SCORE</text>
+          <text x="236" y="110" font-family="DM Sans" font-size="11" fill="#fff">DOB year: 2014</text>
+          <text x="236" y="128" font-family="DM Sans" font-size="11" fill="#fff">Parent name: R. Smith</text>
+          <text x="236" y="146" font-family="DM Sans" font-size="11" fill="#fff">Issuing state: Texas</text>
+          <rect x="218" y="174" width="86" height="58" rx="12" fill="rgba(255,255,255,0.14)" stroke="rgba(255,255,255,0.28)"/><text x="261" y="204" font-family="DM Serif Display" font-size="23" fill="#fff" text-anchor="middle">94%</text><text x="261" y="221" font-family="DM Mono" font-size="8" letter-spacing="1" fill="rgba(255,255,255,0.62)" text-anchor="middle">CONFIDENCE</text>
+          <rect x="314" y="174" width="86" height="58" rx="12" fill="rgba(255,255,255,0.14)" stroke="rgba(255,255,255,0.28)"/><text x="357" y="204" font-family="DM Serif Display" font-size="23" fill="#fff" text-anchor="middle">8</text><text x="357" y="221" font-family="DM Mono" font-size="8" letter-spacing="1" fill="rgba(255,255,255,0.62)" text-anchor="middle">FRAUD SCORE</text>
+          <rect x="96" y="244" width="248" height="24" rx="8" fill="#F0FDF4" stroke="#BBF7D0"/>
+          <text x="220" y="260" font-family="DM Mono" font-size="10" fill="#16A34A" text-anchor="middle">Auto-approved · No broker review needed</text>
         </svg>
       </div>
     </div>
 
+    <div class="fblock flip fade">
+      <div>
+        <div class="ftag">Step 4 — Report + billing</div>
+        <h2 class="fh">You review edge cases.<br><em>We handle everything else.</em></h2>
+        <p class="fp">Low-confidence documents land in your review queue with the original image and AI-extracted data side by side. When the audit closes, the savings report PDF generates automatically and Stripe invoices the employer.</p>
+        <a class="flink" href="#pricing">See pilot pricing →</a>
+      </div>
+      <div class="fillo-wrap">
+        <svg viewBox="0 0 440 280" fill="none">
+          <defs><linearGradient id="saveGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F4C078"/><stop offset="1" stop-color="#E8943A"/></linearGradient></defs>
+          <rect x="72" y="48" width="296" height="184" rx="24" fill="url(#saveGold)"/>
+          <text x="112" y="92" font-family="DM Mono" font-size="10" letter-spacing="2" fill="rgba(255,255,255,0.7)">PROJECTED ANNUAL SAVINGS</text>
+          <text x="112" y="146" font-family="DM Serif Display" font-size="50" fill="#fff">$329,000</text>
+          <rect x="112" y="166" width="178" height="8" rx="4" fill="rgba(255,255,255,0.42)"/>
+          <rect x="112" y="184" width="128" height="8" rx="4" fill="rgba(255,255,255,0.42)"/>
+          <text x="112" y="214" font-family="DM Sans" font-size="14" font-weight="600" fill="#fff">47 ineligible dependents × $7,000 avg cost</text>
+        </svg>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -600,83 +604,43 @@ footer{background:var(--white);border-top:1px solid var(--border-soft);padding:5
   <div class="container">
     <div class="centered fade">
       <div class="sec-ey">Why BenefitsOS</div>
-      <h2 class="sec-h" style="margin:0 auto 14px;">Built around the renewal work brokers already do</h2>
-      <p class="sec-sub" style="margin:0 auto;">BenefitsOS gives brokers a secure workspace for the parts of renewal work that are still trapped in spreadsheets, inboxes, PDFs, and institutional memory.</p>
+      <h2 class="sec-h" style="margin:0 auto 14px;">Built for HIPAA from the first commit</h2>
+      <p class="sec-sub" style="margin:0 auto;">Dependent audits touch PHI, identity documents, and employer eligibility decisions. The product is positioned around security controls that exist before any roster is processed.</p>
     </div>
     <div class="moat-hero fade" aria-hidden="true">
-      <svg viewBox="0 0 860 260" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="mhPurple" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8B70D4"/><stop offset="1" stop-color="#6B4FBB"/></linearGradient>
-          <linearGradient id="mhAmber" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F4C078"/><stop offset="1" stop-color="#E8943A"/></linearGradient>
-          <filter id="mhShadow" x="-20%" y="-30%" width="140%" height="160%"><feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#6B4FBB" flood-opacity="0.12"/></filter>
-        </defs>
-        <path d="M150 132 C245 54 330 54 430 132 C530 210 620 210 710 132" stroke="#D4C8F4" stroke-width="3" stroke-dasharray="7 9"/>
-        <path d="M150 132 C245 210 330 210 430 132 C530 54 620 54 710 132" stroke="#D4C8F4" stroke-width="3" stroke-dasharray="7 9"/>
-        <g filter="url(#mhShadow)">
-          <rect x="36" y="76" width="168" height="112" rx="18" fill="#fff" stroke="#E6E1F5" stroke-width="1.5"/>
-          <text x="62" y="108" font-family="DM Mono, monospace" font-size="10" letter-spacing="2" fill="#A89EC8">CASE DATA</text>
-          <rect x="62" y="124" width="86" height="8" rx="4" fill="#2D2545"/>
-          <rect x="62" y="142" width="118" height="7" rx="3.5" fill="#D4C8F4"/>
-          <rect x="62" y="160" width="72" height="7" rx="3.5" fill="#D4C8F4"/>
-        </g>
-        <g filter="url(#mhShadow)">
-          <rect x="334" y="42" width="192" height="176" rx="22" fill="url(#mhPurple)"/>
-          <circle cx="430" cy="106" r="34" fill="rgba(255,255,255,0.18)"/>
-          <circle cx="430" cy="106" r="21" fill="#fff"/>
-          <path d="M421 106 l7 7 l13 -17" stroke="#6B4FBB" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <text x="430" y="160" text-anchor="middle" font-family="DM Serif Display, serif" font-size="26" fill="#fff">BenefitsOS</text>
-          <text x="430" y="181" text-anchor="middle" font-family="DM Mono, monospace" font-size="9" letter-spacing="1.5" fill="rgba(255,255,255,0.62)">INTELLIGENCE LAYER</text>
-        </g>
-        <g filter="url(#mhShadow)">
-          <rect x="656" y="52" width="168" height="64" rx="16" fill="#fff" stroke="#E6E1F5" stroke-width="1.5"/>
-          <circle cx="684" cy="84" r="13" fill="#F0FDF4" stroke="#16A34A"/>
-          <path d="M678 84 l4 4 l8 -10" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <text x="710" y="81" font-family="DM Sans, sans-serif" font-size="13" font-weight="700" fill="#0F0D1A">Concessions</text>
-          <text x="710" y="98" font-family="DM Mono, monospace" font-size="9" fill="#6B5F8A">asked / won / logged</text>
-        </g>
-        <g filter="url(#mhShadow)">
-          <rect x="656" y="144" width="168" height="64" rx="16" fill="#fff" stroke="#E6E1F5" stroke-width="1.5"/>
-          <circle cx="684" cy="176" r="13" fill="#FEF2F2" stroke="#DC2626"/>
-          <path d="M680 172 l8 8 M688 172 l-8 8" stroke="#DC2626" stroke-width="2" stroke-linecap="round"/>
-          <text x="710" y="173" font-family="DM Sans, sans-serif" font-size="13" font-weight="700" fill="#0F0D1A">Clause risk</text>
-          <text x="710" y="190" font-family="DM Mono, monospace" font-size="9" fill="#6B5F8A">carrier patterns</text>
-        </g>
-        <g filter="url(#mhShadow)">
-          <rect x="382" y="226" width="96" height="34" rx="12" fill="url(#mhAmber)"/>
-          <text x="430" y="247" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="#fff">BENCHMARKS</text>
-        </g>
+      <svg viewBox="0 0 860 230" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="securityPurple" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8B70D4"/><stop offset="1" stop-color="#6B4FBB"/></linearGradient><filter id="securityShadow" x="-20%" y="-30%" width="140%" height="160%"><feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#6B4FBB" flood-opacity="0.12"/></filter></defs>
+        <path d="M148 116 C250 62 326 62 430 116 C534 170 610 170 712 116" stroke="#D4C8F4" stroke-width="3" stroke-dasharray="7 9"/>
+        <g filter="url(#securityShadow)"><rect x="62" y="62" width="168" height="108" rx="18" fill="#fff" stroke="#E6E1F5" stroke-width="1.5"/><text x="92" y="95" font-family="DM Mono, monospace" font-size="10" letter-spacing="2" fill="#A89EC8">ROSTER</text><rect x="92" y="112" width="86" height="8" rx="4" fill="#2D2545"/><rect x="92" y="132" width="112" height="7" rx="3.5" fill="#D4C8F4"/></g>
+        <g filter="url(#securityShadow)"><rect x="334" y="30" width="192" height="164" rx="24" fill="url(#securityPurple)"/><path d="M430 61 L474 79 V111 C474 142 455 162 430 174 C405 162 386 142 386 111 V79 Z" fill="rgba(255,255,255,0.2)" stroke="#fff" stroke-width="2"/><path d="M413 116 l11 11 l25 -34" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><text x="430" y="214" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" letter-spacing="1.8" fill="#6B5F8A">SIGNED URLS · BAA VENDORS · AUDIT TRAIL</text></g>
+        <g filter="url(#securityShadow)"><rect x="638" y="62" width="168" height="108" rx="18" fill="#fff" stroke="#E6E1F5" stroke-width="1.5"/><text x="668" y="95" font-family="DM Mono, monospace" font-size="10" letter-spacing="2" fill="#A89EC8">REPORT</text><text x="668" y="130" font-family="DM Serif Display, serif" font-size="28" fill="#6B4FBB">$329K</text><rect x="668" y="144" width="86" height="7" rx="3.5" fill="#D4C8F4"/></g>
       </svg>
     </div>
     <div class="moats-grid fade">
       <div class="moat hl">
-        <svg class="moat-illo" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" fill="#EDE8FC"/><circle cx="24" cy="24" r="13" fill="none" stroke="#6B4FBB" stroke-width="2"/><circle cx="24" cy="24" r="6" fill="#6B4FBB"/><circle cx="24" cy="24" r="2.5" fill="#fff"/></svg>
-        <div class="moat-title">Carrier Concession Database</div>
-        <div class="moat-desc">Every negotiation round logged — what you asked, what they offered, what they conceded. By carrier, group size, SIC code, state. Predictive after 30 cases.</div>
+        <svg class="moat-illo" viewBox="0 0 48 48" fill="none"><path d="M24 6 L40 13 V25 C40 34 33 40 24 43 C15 40 8 34 8 25 V13 Z" fill="#16A34A" opacity="0.12"/><path d="M24 6 L40 13 V25 C40 34 33 40 24 43 C15 40 8 34 8 25 V13 Z" fill="none" stroke="#16A34A" stroke-width="2"/><path d="M18 24 l4 4 l9 -10" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        <div class="moat-title">BAA on every vendor</div>
+        <div class="moat-desc">Supabase Enterprise, Anthropic, Twilio, Lob — all signed before any data is processed.</div>
       </div>
       <div class="moat">
-        <svg class="moat-illo" viewBox="0 0 48 48" fill="none"><rect x="12" y="8" width="24" height="32" rx="4" fill="#fff" stroke="#8B70D4" stroke-width="2"/><rect x="17" y="15" width="14" height="2.5" rx="1.25" fill="#AE98E4"/><rect x="17" y="21" width="11" height="2.5" rx="1.25" fill="#D4C8F4"/><circle cx="32" cy="32" r="9" fill="#E8943A"/><path d="M28 32 l3 3 l5 -6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
-        <div class="moat-title">Contract Clause Intelligence</div>
-        <div class="moat-desc">Every reviewed contract adds carrier-specific risky clauses to a pgvector semantic library. No attorney has this systematized for group health.</div>
+        <svg class="moat-illo" viewBox="0 0 48 48" fill="none"><rect x="10" y="18" width="28" height="22" rx="5" fill="#EDE8FC" stroke="#6B4FBB" stroke-width="2"/><path d="M17 18v-4a7 7 0 0114 0v4" stroke="#6B4FBB" stroke-width="2"/><circle cx="24" cy="29" r="3" fill="#6B4FBB"/></svg>
+        <div class="moat-title">Documents never exposed</div>
+        <div class="moat-desc">Supabase Storage with signed URLs only. 15-minute expiry. No public buckets. Ever.</div>
       </div>
       <div class="moat">
-        <svg class="moat-illo" viewBox="0 0 48 48" fill="none"><circle cx="20" cy="20" r="11" fill="none" stroke="#6B4FBB" stroke-width="2.5"/><line x1="28" y1="28" x2="38" y2="38" stroke="#6B4FBB" stroke-width="2.5" stroke-linecap="round"/><path d="M16 20 l3 3 l5 -6" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
-        <div class="moat-title">Dependent Audit History</div>
-        <div class="moat-desc">Verified census per employer creates renewal lock-in. Switching means starting from zero. Each audit pre-populates the next renewal intake.</div>
+        <svg class="moat-illo" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="18" fill="#F8F6FF" stroke="#8B70D4" stroke-width="2"/><path d="M16 25c4-9 12-9 16 0M18 30h12" stroke="#8B70D4" stroke-width="2" stroke-linecap="round"/><path d="M34 14l4 4-4 4" stroke="#E8943A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="moat-title">PHI never in AI training</div>
+        <div class="moat-desc">Anthropic BAA explicitly covers this. Claude Vision processes documents; it does not train on them.</div>
       </div>
       <div class="moat">
-        <svg class="moat-illo" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="18" fill="none" stroke="#3BA89A" stroke-width="2"/><ellipse cx="24" cy="24" rx="8" ry="18" fill="none" stroke="#3BA89A" stroke-width="2"/><line x1="6" y1="24" x2="42" y2="24" stroke="#3BA89A" stroke-width="2"/><circle cx="30" cy="16" r="3" fill="#E8943A"/></svg>
-        <div class="moat-title">ZIP-Level Network Scoring</div>
-        <div class="moat-desc">"Does this carrier cover where my employees live?" — scored by employee ZIP from NCPDP + CMS data. Everyone else guesses.</div>
+        <svg class="moat-illo" viewBox="0 0 48 48" fill="none"><rect x="12" y="8" width="24" height="32" rx="4" fill="#fff" stroke="#8B70D4" stroke-width="2"/><path d="M18 18h12M18 25h12M18 32h8" stroke="#8B70D4" stroke-width="2" stroke-linecap="round"/><circle cx="35" cy="36" r="7" fill="#E8943A"/><path d="M32 36l2 2 4-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="moat-title">Append-only audit trail</div>
+        <div class="moat-desc">Every broker action, every determination, every override logged immutably for E&O defense.</div>
       </div>
       <div class="moat hl">
-        <svg class="moat-illo" viewBox="0 0 48 48" fill="none"><rect x="14" y="10" width="20" height="30" rx="10" fill="#EDE8FC"/><rect x="20" y="16" width="8" height="4" rx="2" fill="#6B4FBB"/><circle cx="24" cy="28" r="5" fill="#E8943A"/><rect x="22.5" y="28" width="3" height="7" rx="1.5" fill="#E8943A"/></svg>
-        <div class="moat-title">PBM Rebate Intelligence</div>
-        <div class="moat-desc">MediSpan AWP benchmarks applied to real employer Rx claims. Finds unrecovered rebates no broker surfaces manually.</div>
-      </div>
-      <div class="moat">
-        <svg class="moat-illo" viewBox="0 0 48 48" fill="none"><path d="M24 6 L40 13 V25 C40 34 33 40 24 43 C15 40 8 34 8 25 V13 Z" fill="#16A34A" opacity="0.12"/><path d="M24 6 L40 13 V25 C40 34 33 40 24 43 C15 40 8 34 8 25 V13 Z" fill="none" stroke="#16A34A" stroke-width="2"/><path d="M18 24 l4 4 l9 -10" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
-        <div class="moat-title">HIPAA from Day One</div>
-        <div class="moat-desc">Supabase + Anthropic BAA. Signed URLs only (15-min expiry). Documents retained 7 years then auto-deleted. SOC 2 in Year 2.</div>
+        <svg class="moat-illo" viewBox="0 0 48 48" fill="none"><circle cx="20" cy="20" r="11" fill="none" stroke="#6B4FBB" stroke-width="2.5"/><line x1="28" y1="28" x2="38" y2="38" stroke="#6B4FBB" stroke-width="2.5" stroke-linecap="round"/><path d="M16 20 l3 3 l5 -6" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        <div class="moat-title">Dependent Audit History</div>
+        <div class="moat-desc">Verified census per employer creates renewal lock-in. Each audit pre-populates the next renewal intake.</div>
       </div>
     </div>
   </div>
@@ -691,7 +655,8 @@ footer{background:var(--white);border-top:1px solid var(--border-soft);padding:5
       <p class="sec-sub" style="margin:0 auto;">Every pricing model is built around documented savings, not software subscriptions.</p>
     </div>
     <div class="pricing-grid fade">
-      <div class="price-card">
+      <div class="price-card audit-primary">
+        <div class="available-badge">Available now</div>
         <div class="pname">Dependent Audit</div>
         <div class="pprice">$15<span style="font-size:18px;color:var(--muted);">/dep</span></div>
         <div class="pper">Per dependent · one-time</div>
@@ -702,26 +667,27 @@ footer{background:var(--white);border-top:1px solid var(--border-soft);padding:5
         <div class="pfeat"><span class="pcheck">✓</span>Fraud detection included</div>
         <div class="pfeat"><span class="pcheck">✓</span>Audit report PDF + savings calc</div>
         <div class="pfeat"><span class="pcheck">✓</span>Broker white-label</div>
-        <a href="/demo" class="pbtn">Get started</a>
+        <a href="/demo" class="pbtn">Book audit pilot</a>
       </div>
-      <div class="price-card feat">
-        <div class="fbadge">Most popular</div>
+      <div class="price-card future">
         <div class="pname">Benefits Renewal</div>
-        <div class="pprice">$15K<span style="font-size:18px;color:rgba(255,255,255,0.6);">+</span></div>
+        <div class="pprice">Q3 2026</div>
         <div class="pper">Per employer case · flat fee</div>
+        <div class="coming-note">Coming Q3 2026</div>
         <div class="pdiv"></div>
         <div class="pfeat"><span class="pcheck">✓</span>Full RFP → negotiation → contract</div>
-        <div class="pfeat"><span class="pcheck">✓</span>AI quote normalization (8 carriers)</div>
+        <div class="pfeat"><span class="pcheck">✓</span>AI quote parsing (8 carriers)</div>
         <div class="pfeat"><span class="pcheck">✓</span>Negotiation playbook (concession DB)</div>
         <div class="pfeat"><span class="pcheck">✓</span>Contract clause risk flagging</div>
         <div class="pfeat"><span class="pcheck">✓</span>Employer decision portal</div>
         <div class="pfeat"><span class="pcheck">✓</span>Pre-filled from audit data</div>
-        <a href="/demo" class="pbtn">Book a demo</a>
+        <a href="#waitlist" class="pbtn">Join waitlist →</a>
       </div>
-      <div class="price-card">
+      <div class="price-card future">
         <div class="pname">Broker Platform</div>
-        <div class="pprice">$1.2K<span style="font-size:18px;color:var(--muted);">/mo</span></div>
+        <div class="pprice">2027</div>
         <div class="pper">Per seat · annual billing</div>
+        <div class="coming-note">Coming 2027</div>
         <div class="pdiv"></div>
         <div class="pfeat"><span class="pcheck">✓</span>Unlimited audit + renewal cases</div>
         <div class="pfeat"><span class="pcheck">✓</span>Monthly billing reconciliation</div>
@@ -729,7 +695,7 @@ footer{background:var(--white);border-top:1px solid var(--border-soft);padding:5
         <div class="pfeat"><span class="pcheck">✓</span>White-label employer portal</div>
         <div class="pfeat"><span class="pcheck">✓</span>Carrier concession benchmarks</div>
         <div class="pfeat"><span class="pcheck">✓</span>Priority support + SLA</div>
-        <a href="/demo" class="pbtn">Talk to us</a>
+        <a href="#waitlist" class="pbtn">Join waitlist →</a>
       </div>
     </div>
     <div style="margin-top:16px;background:var(--p50);border:1.5px solid var(--p200);border-radius:14px;padding:20px 28px;display:flex;justify-content:space-between;align-items:center;" class="fade">
@@ -818,7 +784,7 @@ footer{background:var(--white);border-top:1px solid var(--border-soft);padding:5
       <rect x="282" y="34" width="150" height="142" rx="22" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.3)"/>
       <circle cx="357" cy="82" r="28" fill="#fff"/>
       <path d="M346 82 l8 8 l16 -20" stroke="#6B4FBB" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-      <text x="357" y="130" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" letter-spacing="1.4" fill="rgba(255,255,255,0.72)">RENEWAL ROOM</text>
+      <text x="357" y="130" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" letter-spacing="1.4" fill="rgba(255,255,255,0.72)">AUDIT ROOM</text>
       <rect x="522" y="56" width="132" height="98" rx="18" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.28)"/>
       <text x="548" y="88" font-family="DM Mono, monospace" font-size="9" letter-spacing="1.5" fill="rgba(255,255,255,0.62)">OUTPUT</text>
       <text x="548" y="122" font-family="DM Serif Display, serif" font-size="30" fill="#fff">ready</text>
@@ -826,10 +792,10 @@ footer{background:var(--white);border-top:1px solid var(--border-soft);padding:5
     </svg>
   </div>
   <div class="cta-ey">Get started</div>
-  <h2 class="cta-h">Run your next renewal with<br>fewer spreadsheets and stronger leverage</h2>
-  <p class="cta-sub">Upload the case file, normalize carrier responses, generate a negotiation playbook, flag contract risk, and deliver a cleaner employer recommendation without weeks of manual analyst work.</p>
+  <h2 class="cta-h">Your first audit pays for itself<br>before close</h2>
+  <p class="cta-sub">One 500-person employer. Average 47 ineligible dependents. Average $329,000 in annual savings. We charge $7,500. Every CFO understands this math.</p>
   <div class="cta-btns">
-    <a class="cbw" href="/demo">Book a demo</a>
+    <a class="cbw" href="/demo">Book audit pilot</a>
     <a class="cbg" href="/login">Log in to your account</a>
   </div>
 </div>
@@ -840,7 +806,8 @@ footer{background:var(--white);border-top:1px solid var(--border-soft);padding:5
     <div class="footer-grid">
       <div>
         <div class="footer-logo"><svg width="22" height="22" viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="9" fill="#6B4FBB"/><path d="M16 6.5L23 9.3V15.2C23 20.1 20.1 23.6 16 25.7C11.9 23.6 9 20.1 9 15.2V9.3L16 6.5Z" fill="rgba(255,255,255,0.18)" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><circle cx="16" cy="12.2" r="2.1" fill="#fff"/><circle cx="12.3" cy="18.2" r="1.8" fill="#F4C078"/><circle cx="19.7" cy="18.2" r="1.8" fill="#7FCFC2"/><path d="M16 14.4V16.2M14.2 17.1L12.9 17.7M17.8 17.1L19.1 17.7" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>BenefitsOS</div>
-        <div class="footer-tagline">The AI operating system for employee benefits consultants. Dependent audit, renewal workflow, pharmacy analytics — one platform.</div>
+        <div class="footer-tagline">AI-powered dependent eligibility audit for benefits brokers.</div>
+        <div class="footer-tagline" style="margin-top:-12px;">Founded by BenifitsOS team· Dallas, Texas</div>
         <div class="hipaa-badge"><div style="width:6px;height:6px;border-radius:50%;background:var(--ok);"></div>HIPAA Compliant · BAA Active</div>
       </div>
       <div><div class="footer-col-h">Products</div><a class="footer-lnk" href="#products">Dependent Audit</a><a class="footer-lnk" href="#products">Benefits Renewal</a><a class="footer-lnk" href="#products">PBM Analytics</a><a class="footer-lnk" href="#products">Post-Enrollment</a><a class="footer-lnk" href="#products">Employee Portal</a></div>
@@ -849,7 +816,7 @@ footer{background:var(--white);border-top:1px solid var(--border-soft);padding:5
     </div>
     <div class="footer-bottom">
       <div class="footer-copy">© 2026 BenefitsOS Inc. · Built in Dallas, TX</div>
-      <div class="footer-right">🔒 HIPAA · Encrypted at rest · SOC 2 in progress</div>
+      <div class="footer-right">🔒 HIPAA · Encrypted at rest · BAA active</div>
     </div>
   </div>
 </footer>
@@ -871,62 +838,6 @@ const productProcesses = {
       ['Risk scoring', 'Age, address mismatch, enrollment anomaly, missing proof.'],
       ['AI verification', 'Claude Vision reads birth certificates, marriage certificates, and uploaded proof.'],
       ['Savings report', 'Broker review queue, final eligibility file, projected annual savings.']
-    ]
-  },
-  renewal: {
-    label: '02 · Benefits Renewal',
-    title: 'Run the renewal from RFP to signed contract.',
-    desc: 'The core BenefitsOS workflow turns scattered PDFs, spreadsheets, carrier emails, and plan details into a controlled renewal room for brokers and employers.',
-    outcome: 'Normalized quote comparison, negotiation playbook, contract risk map, and employer recommendation memo.',
-    chip: 'Renewal command center',
-    theme: { accent: '#6B4FBB', secondary: '#3BA89A', left: 'EMPLOYER FILE', center: 'RENEWAL ENGINE', right: 'CARRIER BIDS', result: '-7.4%' },
-    steps: [
-      ['Employer intake', 'Census, current plan, contribution strategy, claims summary, funding type.'],
-      ['RFP and bids', 'Carrier shortlist, RFP package, deadline tracking, missing-field alerts.'],
-      ['Quote modeling', 'Premium, PEPM, plan richness, network disruption, stop-loss exposure.'],
-      ['Negotiate and bind', 'Counter-offers, BAFO requests, clause pushbacks, final term sheet.']
-    ]
-  },
-  pharmacy: {
-    label: '03 · Pharmacy Analytics',
-    title: 'Find Rx waste before it hits renewal pricing.',
-    desc: 'BenefitsOS reads pharmacy utilization and PBM reports to expose specialty drug risk, rebate gaps, formulary problems, and self-funded cost drivers.',
-    outcome: 'PBM savings memo, specialty drug exposure map, rebate recovery targets, and renewal negotiation inputs.',
-    chip: 'Rx intelligence flow',
-    theme: { accent: '#3BA89A', secondary: '#E8943A', left: 'PBM DATA', center: 'RX ANALYTICS', right: 'REBATE REVIEW', result: '$148K' },
-    steps: [
-      ['Claims import', 'PBM report, Rx utilization, specialty drug file, AWP benchmarks.'],
-      ['Spend mapping', 'Top NDCs, therapeutic classes, high-cost claimants, PMPM trend.'],
-      ['Rebate audit', 'Expected vs. received rebates, spread pricing signals, carve-out options.'],
-      ['Action plan', 'Formulary edits, clinical programs, PBM pushback, employer savings memo.']
-    ]
-  },
-  post: {
-    label: '04 · Post-Enrollment',
-    title: 'Keep saving money after open enrollment closes.',
-    desc: 'BenefitsOS turns the signed renewal into a year-round operating cadence: billing reconciliation, claims analytics, stop-loss monitoring, and compliance tracking.',
-    outcome: 'Monthly discrepancy report, dispute package, claims trend view, and renewal-ready case history.',
-    chip: 'Year-round operations',
-    theme: { accent: '#8B70D4', secondary: '#E36B5C', left: 'MONTHLY BILL', center: 'RECONCILE', right: 'CLAIMS WATCH', result: '3.8%' },
-    steps: [
-      ['Invoice ingest', 'Carrier bill, active census, terminations, new hires, retro changes.'],
-      ['Reconcile', 'Identify terminated employees still billed, tier errors, duplicate lives.'],
-      ['Claims and stop-loss', 'Track PMPM trend, lasers, specific deductible, aggregate attachment.'],
-      ['Recover and learn', 'Carrier dispute packet, savings log, next-renewal benchmark data.']
-    ]
-  },
-  employee: {
-    label: '05 · Employee Decision Support',
-    title: 'Help employees choose the right plan.',
-    desc: 'The employee portal gives every worker a plain-language enrollment experience using workforce-specific plans, contribution strategy, and expected utilization.',
-    outcome: 'Higher confidence enrollment, fewer HR questions, cleaner elections, and better plan fit.',
-    chip: 'Enrollment guidance',
-    theme: { accent: '#8B70D4', secondary: '#3BA89A', left: 'PLAN OPTIONS', center: 'PLAN GUIDE', right: 'EMPLOYEE FIT', result: '30%' },
-    steps: [
-      ['Plan load', 'Medical, dental, vision, HSA/FSA, payroll contributions, employer rules.'],
-      ['Five questions', 'Family status, expected visits, prescriptions, risk tolerance, budget.'],
-      ['Recommendation', 'Best-fit plan, estimated annual cost, tradeoffs in plain English.'],
-      ['Enrollment kit', 'Personalized guide, HR-ready FAQs, final election summary.']
     ]
   }
 };
