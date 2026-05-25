@@ -82,11 +82,15 @@ section,.product-process{scroll-margin-top:78px;}
 
 /* PRODUCTS */
 .products-bg{background:var(--off);}
-.products-horiz{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:48px;}
+.products-horiz{display:grid;grid-template-columns:minmax(360px,1.45fr) minmax(0,1fr);gap:18px;margin-top:48px;align-items:stretch;}
 .prod-card{background:var(--white);border:1.5px solid var(--border);border-radius:14px;padding:22px 18px;transition:all .2s;cursor:pointer;}
 .prod-card:hover{border-color:var(--p300);box-shadow:0 8px 28px rgba(107,79,187,0.1);transform:translateY(-3px);}
 .prod-card:focus-visible{outline:3px solid var(--p200);outline-offset:3px;}
 .prod-card.star{background:var(--p500);border-color:var(--p500);}
+.products-horiz>.prod-card.star{padding:34px;min-height:390px;display:flex;flex-direction:column;justify-content:flex-end;}
+.products-horiz>.prod-card.star .prod-illo{height:140px;margin:auto 0 28px;}
+.products-horiz>.prod-card.star .prod-name{font-size:18px;}
+.products-horiz>.prod-card.star .prod-desc{font-size:14px;line-height:1.7;max-width:430px;}
 .prod-card.roadmap{opacity:.5;cursor:default;}
 .prod-card.roadmap:hover{border-color:var(--border);box-shadow:none;transform:none;}
 .prod-illo{width:100%;height:80px;margin-bottom:14px;}
@@ -102,6 +106,14 @@ section,.product-process{scroll-margin-top:78px;}
 .prod-card.star .prod-status{color:#fff;background:rgba(22,163,74,0.28);border-color:rgba(255,255,255,0.34);}
 .prod-card.roadmap .prod-status{color:var(--muted);background:var(--off);border-color:var(--border);}
 .waitlist-btn{display:inline-block;margin-top:14px;font-size:12px;font-weight:500;color:var(--p500);text-decoration:none;border:1px solid var(--p200);border-radius:8px;padding:7px 10px;background:#fff;}
+.roadmap-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+.roadmap-row .prod-card{padding:16px;min-height:189px;}
+.roadmap-row .prod-illo{height:44px;margin-bottom:10px;}
+.roadmap-row .prod-num{font-size:9px;margin-bottom:7px;}
+.roadmap-row .prod-status{font-size:8px;letter-spacing:.8px;margin-bottom:8px;}
+.roadmap-row .prod-name{font-size:12px;margin-bottom:6px;}
+.roadmap-row .prod-desc{font-size:11px;line-height:1.55;}
+.roadmap-row .waitlist-btn{font-size:11px;padding:6px 9px;margin-top:10px;}
 .product-process{margin-top:24px;background:var(--white);border:1.5px solid var(--border);border-radius:18px;padding:28px;display:grid;grid-template-columns:0.56fr 1.44fr;gap:28px;align-items:stretch;box-shadow:0 18px 44px rgba(107,79,187,0.08);}
 .process-copy{display:flex;flex-direction:column;justify-content:space-between;gap:24px;}
 .process-label{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--p500);margin-bottom:10px;}
@@ -233,6 +245,10 @@ footer{background:var(--white);border-top:1px solid var(--border-soft);padding:5
   .proof-val{font-size:28px;}
   section{padding:72px 18px;}
   .products-horiz,.moats-grid,.pricing-grid,.docs-grid{grid-template-columns:1fr;}
+  .products-horiz>.prod-card.star{min-height:320px;padding:28px 20px;}
+  .products-horiz>.prod-card.star .prod-illo{height:100px;margin:0 0 24px;}
+  .roadmap-row{grid-template-columns:1fr;}
+  .roadmap-row .prod-card{min-height:0;padding:18px;}
   .moat-hero{margin-bottom:30px;}
   .product-process{grid-template-columns:1fr;padding:18px;border-radius:14px;}
   .process-title{font-size:28px;}
@@ -436,7 +452,8 @@ footer{background:var(--white);border-top:1px solid var(--border-soft);padding:5
         <div class="prod-desc">AI verifies every dependent. Claude Vision reads birth & marriage certs. 6-wave outreach. Avg 9.5% ineligible found.</div>
         <div class="prod-pill">Launch first</div>
       </div>
-      <div class="prod-card roadmap" id="waitlist">
+      <div class="roadmap-row" id="waitlist">
+      <div class="prod-card roadmap">
         <svg class="prod-illo" viewBox="0 0 120 80" fill="none"><rect x="30" y="12" width="44" height="56" rx="6" fill="#fff" stroke="#E6E1F5" stroke-width="1.5"/><rect x="38" y="22" width="28" height="4" rx="2" fill="#6B4FBB"/><rect x="38" y="31" width="22" height="3" rx="1.5" fill="#D4C8F4"/><rect x="38" y="38" width="26" height="3" rx="1.5" fill="#D4C8F4"/><rect x="38" y="45" width="20" height="3" rx="1.5" fill="#D4C8F4"/><circle cx="80" cy="44" r="18" fill="#8B70D4"/><path d="M73 44 h14 M80 37 v14" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>
         <div class="prod-num">02</div>
         <div class="prod-status">Q3 2026 · Join waitlist</div>
@@ -467,6 +484,7 @@ footer{background:var(--white);border-top:1px solid var(--border-soft);padding:5
         <div class="prod-name">Employee Decision Support</div>
         <div class="prod-desc">Open enrollment AI: 5 questions, personalized plan pick. Reduces HR support calls 30–40%.</div>
         <a class="waitlist-btn" href="#waitlist">Join waitlist →</a>
+      </div>
       </div>
     </div>
     <div class="product-process fade" id="product-process" aria-live="polite">
