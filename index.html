@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BenefitsOS — AI Operating System for Employee Benefits</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+:root{
+  --p700:#3D2890;--p600:#5238A8;--p500:#6B4FBB;--p400:#8B70D4;--p300:#AE98E4;--p200:#D4C8F4;--p100:#EDE8FC;--p50:#F8F6FF;
+  --amber:#E8943A;--amber-l:#F4C078;
+  --coral:#E36B5C;--coral-l:#F0A092;
+  --teal:#3BA89A;--teal-l:#7FCFC2;
+  --gold:#D9A53B;
+  --white:#FFFFFF;--off:#FAFAFD;--surface:#F3F1FB;--border:#E6E1F5;--border-soft:#EDE8FC;
+  --ink:#0F0D1A;--ink2:#2D2545;--muted:#6B5F8A;--placeholder:#A89EC8;
+  --ok:#16A34A;--ok-bg:#F0FDF4;--ok-border:#BBF7D0;
+  --warn:#D97706;--warn-bg:#FFFBEB;--warn-border:#FDE68A;
+  --bad:#DC2626;--bad-bg:#FEF2F2;--bad-border:#FECACA;
+  --serif:'DM Serif Display',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--mono:'DM Mono',monospace;
+}
+body{font-family:var(--sans);background:var(--white);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 52px;height:62px;background:rgba(255,255,255,0.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border-soft);}
+.nav-logo{display:flex;align-items:center;gap:9px;}
+.nav-logo svg{width:26px;height:26px;}
+.nav-logo-text{font-size:16px;font-weight:600;color:var(--ink);letter-spacing:-.3px;}
+.nav-links{display:flex;align-items:center;gap:28px;}
+.nav-link{font-size:13.5px;color:var(--muted);text-decoration:none;transition:color .15s;cursor:pointer;}
+.nav-link:hover{color:var(--ink);}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.btn-login{font-size:13px;color:var(--muted);padding:7px 14px;border-radius:8px;border:1px solid var(--border);background:transparent;cursor:pointer;text-decoration:none;transition:all .15s;}
+.btn-login:hover{border-color:var(--p300);color:var(--p500);}
+.btn-primary{font-size:13px;font-weight:500;color:#fff;background:var(--p500);padding:8px 20px;border-radius:8px;cursor:pointer;text-decoration:none;border:none;transition:background .15s;}
+.btn-primary:hover{background:var(--p600);}
+
+/* HERO */
+.hero{padding:140px 52px 60px;position:relative;overflow:hidden;text-align:center;display:flex;flex-direction:column;align-items:center;}
+.hero-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+.blob{position:absolute;border-radius:50%;filter:blur(80px);}
+.blob1{width:720px;height:520px;top:-120px;left:50%;transform:translateX(-50%);background:radial-gradient(ellipse,rgba(107,79,187,0.22),transparent 70%);}
+.blob2{width:420px;height:420px;top:80px;right:-120px;background:radial-gradient(ellipse,rgba(232,148,58,0.10),transparent 70%);}
+.blob3{width:360px;height:360px;top:160px;left:-80px;background:radial-gradient(ellipse,rgba(59,168,154,0.10),transparent 70%);}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(107,79,187,0.045) 1px,transparent 1px),linear-gradient(90deg,rgba(107,79,187,0.045) 1px,transparent 1px);background-size:42px 42px;mask-image:radial-gradient(ellipse 75% 75% at 50% 0%,black,transparent 100%);}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--p50);border:1px solid var(--p200);border-radius:20px;padding:5px 14px 5px 10px;margin-bottom:26px;position:relative;z-index:1;}
+.ed{width:6px;height:6px;border-radius:50%;background:var(--p500);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.et{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--p500);}
+.hero-h1{font-family:var(--serif);font-size:clamp(44px,6.5vw,76px);font-weight:400;line-height:1.04;letter-spacing:-.025em;max-width:880px;margin-bottom:22px;position:relative;z-index:1;}
+.hero-h1 em{font-style:italic;color:var(--p500);}
+.hero-sub{font-size:clamp(15px,1.6vw,18px);color:var(--muted);max-width:560px;line-height:1.75;margin-bottom:36px;position:relative;z-index:1;}
+.hero-ctas{display:flex;align-items:center;gap:12px;margin-bottom:56px;position:relative;z-index:1;}
+.btn-hero{font-size:15px;font-weight:500;color:#fff;background:var(--p500);padding:13px 30px;border-radius:10px;cursor:pointer;text-decoration:none;border:none;transition:all .2s;box-shadow:0 2px 12px rgba(107,79,187,0.3),0 0 0 1px rgba(107,79,187,0.2);}
+.btn-hero:hover{background:var(--p600);}
+.btn-hero-outline{font-size:15px;color:var(--ink2);padding:13px 24px;border-radius:10px;border:1.5px solid var(--border);background:transparent;cursor:pointer;text-decoration:none;transition:all .2s;display:flex;align-items:center;gap:7px;}
+.btn-hero-outline:hover{border-color:var(--p300);color:var(--p500);}
+
+/* HERO ILLUSTRATION — the centerpiece */
+.hero-illo{position:relative;z-index:1;width:100%;max-width:1000px;margin-top:10px;}
+.hero-illo svg{width:100%;height:auto;display:block;filter:drop-shadow(0 30px 60px rgba(107,79,187,0.12));}
+
+/* PROOF */
+.proof-bar{background:var(--white);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);padding:22px 52px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;}
+.proof-item{text-align:center;padding:0 38px;}
+.proof-val{font-family:var(--serif);font-size:30px;letter-spacing:-.5px;line-height:1;}
+.proof-lbl{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:4px;}
+.proof-div{width:1px;height:44px;background:var(--border);}
+
+section{padding:96px 52px;}
+section,.product-process{scroll-margin-top:78px;}
+.container{max-width:1120px;margin:0 auto;}
+.sec-ey{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--p500);margin-bottom:12px;}
+.sec-h{font-family:var(--serif);font-size:clamp(32px,3.8vw,50px);font-weight:400;letter-spacing:-.025em;line-height:1.1;margin-bottom:14px;}
+.sec-sub{font-size:16px;color:var(--muted);line-height:1.75;max-width:520px;margin-bottom:48px;}
+.centered{text-align:center;}.centered .sec-h,.centered .sec-sub{margin-left:auto;margin-right:auto;}
+
+/* PRODUCTS */
+.products-bg{background:var(--off);}
+.products-horiz{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:48px;}
+.prod-card{background:var(--white);border:1.5px solid var(--border);border-radius:14px;padding:22px 18px;transition:all .2s;cursor:pointer;}
+.prod-card:hover{border-color:var(--p300);box-shadow:0 8px 28px rgba(107,79,187,0.1);transform:translateY(-3px);}
+.prod-card:focus-visible{outline:3px solid var(--p200);outline-offset:3px;}
+.prod-card.star{background:var(--p500);border-color:var(--p500);}
+.prod-illo{width:100%;height:80px;margin-bottom:14px;}
+.prod-num{font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--placeholder);margin-bottom:10px;}
+.prod-card.star .prod-num{color:rgba(255,255,255,0.5);}
+.prod-name{font-size:13px;font-weight:600;margin-bottom:7px;letter-spacing:-.2px;}
+.prod-card.star .prod-name{color:#fff;}
+.prod-desc{font-size:12px;color:var(--muted);line-height:1.65;}
+.prod-card.star .prod-desc{color:rgba(255,255,255,0.78);}
+.prod-pill{display:inline-block;margin-top:12px;font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--p500);background:var(--p100);border:1px solid var(--p200);padding:2px 8px;border-radius:10px;}
+.prod-card.star .prod-pill{color:#fff;background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.3);}
+.product-process{margin-top:24px;background:var(--white);border:1.5px solid var(--border);border-radius:18px;padding:28px;display:grid;grid-template-columns:0.56fr 1.44fr;gap:28px;align-items:stretch;box-shadow:0 18px 44px rgba(107,79,187,0.08);}
+.process-copy{display:flex;flex-direction:column;justify-content:space-between;gap:24px;}
+.process-label{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--p500);margin-bottom:10px;}
+.process-title{font-family:var(--serif);font-size:34px;font-weight:400;line-height:1.08;letter-spacing:-.02em;margin-bottom:12px;}
+.process-desc{font-size:14px;color:var(--muted);line-height:1.75;}
+.process-outcome{background:var(--p50);border:1px solid var(--p200);border-radius:12px;padding:16px;}
+.process-outcome span{display:block;font-family:var(--mono);font-size:9px;letter-spacing:1.6px;text-transform:uppercase;color:var(--placeholder);margin-bottom:7px;}
+.process-outcome strong{display:block;font-size:18px;line-height:1.35;color:var(--ink2);}
+.process-visual{position:relative;overflow:hidden;min-height:420px;background:linear-gradient(135deg,#FAFAFD,#F8F6FF);border:1px solid var(--border-soft);border-radius:16px;padding:18px;}
+.process-visual::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(107,79,187,0.045) 1px,transparent 1px),linear-gradient(90deg,rgba(107,79,187,0.045) 1px,transparent 1px);background-size:32px 32px;mask-image:radial-gradient(ellipse 75% 80% at 50% 45%,black,transparent 100%);}
+.process-flow{position:relative;z-index:1;height:100%;}
+.process-flow svg{width:100%;height:auto;display:block;filter:drop-shadow(0 22px 44px rgba(107,79,187,0.12));}
+.process-mobile-list{display:none;}
+.process-chip{position:absolute;right:22px;top:20px;z-index:2;font-family:var(--mono);font-size:9px;letter-spacing:1.4px;text-transform:uppercase;color:var(--p500);background:#fff;border:1px solid var(--p200);border-radius:20px;padding:4px 9px;}
+
+/* FLY.IO ALTERNATING FEATURE BLOCKS */
+.how-bg{background:var(--white);}
+.fblock{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;margin-bottom:96px;}
+.fblock:last-child{margin-bottom:0;}
+.fblock.flip{direction:rtl;}.fblock.flip>*{direction:ltr;}
+.ftag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--p500);background:var(--p100);border:1px solid var(--p200);padding:3px 11px;border-radius:20px;margin-bottom:16px;}
+.fh{font-family:var(--serif);font-size:clamp(26px,3vw,38px);font-weight:400;letter-spacing:-.02em;margin-bottom:14px;line-height:1.15;}
+.fh em{font-style:italic;color:var(--p500);}
+.fp{font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:20px;}
+.flink{font-size:14px;font-weight:500;color:var(--p500);text-decoration:none;display:inline-flex;align-items:center;gap:5px;}
+.fillo-wrap{background:var(--off);border:1.5px solid var(--border);border-radius:18px;padding:32px;overflow:hidden;position:relative;}
+.fillo-wrap svg{width:100%;height:auto;display:block;}
+
+/* MOATS */
+.moats-bg{background:var(--off);}
+.moat-hero{margin:0 auto 42px;max-width:860px;}
+.moat-hero svg{width:100%;height:auto;display:block;filter:drop-shadow(0 22px 46px rgba(107,79,187,0.1));}
+.moats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.moat{background:var(--white);border:1.5px solid var(--border);border-radius:14px;padding:24px;transition:all .2s;}
+.moat:hover{border-color:var(--p300);box-shadow:0 8px 24px rgba(107,79,187,0.08);}
+.moat.hl{background:var(--p50);border-color:var(--p200);}
+.moat-illo{width:48px;height:48px;margin-bottom:14px;}
+.moat-title{font-size:14px;font-weight:600;margin-bottom:8px;letter-spacing:-.2px;}
+.moat-desc{font-size:13px;color:var(--muted);line-height:1.7;}
+
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.price-card{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:28px;transition:all .2s;}
+.price-card:hover{border-color:var(--p300);}
+.price-card.feat{background:var(--p500);border-color:var(--p500);position:relative;}
+.fbadge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;background:var(--ink);color:#fff;padding:4px 12px;border-radius:20px;white-space:nowrap;}
+.pname{font-size:13px;font-weight:600;margin-bottom:3px;}
+.price-card.feat .pname{color:#fff;}
+.pprice{font-family:var(--serif);font-size:38px;letter-spacing:-.5px;margin:12px 0 4px;}
+.price-card.feat .pprice{color:#fff;}
+.pper{font-size:13px;color:var(--muted);}
+.price-card.feat .pper{color:rgba(255,255,255,0.65);}
+.pdiv{height:1px;background:var(--border);margin:20px 0;}
+.price-card.feat .pdiv{background:rgba(255,255,255,0.25);}
+.pfeat{font-size:13px;color:var(--muted);padding:6px 0;display:flex;align-items:center;gap:8px;}
+.price-card.feat .pfeat{color:rgba(255,255,255,0.85);}
+.pcheck{color:var(--p500);font-weight:600;}
+.price-card.feat .pcheck{color:#fff;}
+.pbtn{display:block;margin-top:20px;text-align:center;padding:11px;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;background:var(--p100);color:var(--p500);border:1px solid var(--p200);transition:all .2s;}
+.pbtn:hover{background:var(--p500);color:#fff;}
+.price-card.feat .pbtn{background:#fff;color:var(--p500);}
+
+/* CTA */
+.cta-sec{background:linear-gradient(135deg,var(--p700),var(--p500) 55%,var(--p400));padding:100px 52px;text-align:center;position:relative;overflow:hidden;}
+.cta-sec::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");background-size:256px;}
+.cta-ey{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:14px;position:relative;}
+.cta-h{font-family:var(--serif);font-size:clamp(32px,4.5vw,56px);color:#fff;letter-spacing:-.025em;line-height:1.1;margin-bottom:16px;position:relative;}
+.cta-sub{font-size:16px;color:rgba(255,255,255,0.72);max-width:500px;margin:0 auto 38px;line-height:1.75;position:relative;}
+.cta-btns{display:flex;justify-content:center;gap:14px;position:relative;}
+.cbw{font-size:15px;font-weight:600;color:var(--p500);background:#fff;padding:13px 32px;border-radius:10px;text-decoration:none;border:none;transition:all .2s;}
+.cbw:hover{background:rgba(255,255,255,0.9);}
+.cbg{font-size:15px;font-weight:500;color:#fff;background:transparent;padding:13px 28px;border-radius:10px;text-decoration:none;border:1.5px solid rgba(255,255,255,0.35);transition:all .2s;}
+.cbg:hover{background:rgba(255,255,255,0.1);}
+.cta-illo{position:relative;max-width:700px;margin:0 auto 30px;}
+.cta-illo svg{width:100%;height:auto;display:block;filter:drop-shadow(0 26px 44px rgba(15,13,26,0.18));}
+
+/* FOOTER */
+footer{background:var(--white);border-top:1px solid var(--border-soft);padding:56px 52px 40px;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px;}
+.footer-logo{font-size:16px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.footer-tagline{font-size:13px;color:var(--muted);line-height:1.7;max-width:260px;margin-bottom:20px;}
+.hipaa-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ok);border:1px solid var(--ok-border);background:var(--ok-bg);padding:4px 10px;border-radius:20px;}
+.footer-col-h{font-size:11px;font-weight:600;letter-spacing:.5px;margin-bottom:16px;text-transform:uppercase;}
+.footer-lnk{display:block;font-size:13px;color:var(--muted);text-decoration:none;margin-bottom:10px;transition:color .15s;}
+.footer-lnk:hover{color:var(--p500);}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:28px;border-top:1px solid var(--border-soft);}
+.footer-copy{font-family:var(--mono);font-size:11px;color:var(--placeholder);letter-spacing:.3px;}
+.footer-right{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--p400);}
+.fade{opacity:1;transform:none;}
+.fade.in{opacity:1;transform:none;}
+
+@media(max-width:900px){
+  nav{padding:0 18px;height:62px;}
+  .nav-links{display:none;}
+  .btn-login{display:none;}
+  .btn-primary{padding:8px 14px;font-size:12px;}
+  .hero{padding:112px 18px 46px;}
+  .hero-h1{font-size:clamp(40px,13vw,58px);line-height:1.02;}
+  .hero-sub{font-size:16px;line-height:1.65;margin-bottom:28px;}
+  .hero-ctas{gap:10px;margin-bottom:42px;}
+  .btn-hero,.btn-hero-outline{flex:1;justify-content:center;padding:12px 14px;font-size:14px;}
+  .hero-illo{max-width:560px;overflow:visible;}
+  .hero-illo svg{width:100%;margin-left:0;}
+  .proof-bar{display:grid;grid-template-columns:1fr 1fr;padding:22px 18px;gap:0;border-bottom:none;}
+  .proof-item{padding:18px 10px;border-bottom:1px solid var(--border-soft);}
+  .proof-item:last-child{grid-column:1/-1;}
+  .proof-div{display:none;}
+  .proof-val{font-size:28px;}
+  section{padding:72px 18px;}
+  .products-horiz,.moats-grid,.pricing-grid{grid-template-columns:1fr;}
+  .moat-hero{margin-bottom:30px;}
+  .product-process{grid-template-columns:1fr;padding:18px;border-radius:14px;}
+  .process-title{font-size:28px;}
+  .process-visual{min-height:auto;padding:14px;}
+  .process-flow svg{width:100%;margin-left:0;transform:none;}
+  .process-mobile-list{display:grid;gap:10px;margin-top:14px;}
+  .process-mobile-list div{background:#fff;border:1px solid var(--border);border-radius:12px;padding:13px;}
+  .process-mobile-list b{display:block;font-size:13px;margin-bottom:4px;}
+  .process-mobile-list p{font-size:12px;color:var(--muted);line-height:1.5;margin:0;}
+  .fblock,.fblock.flip{grid-template-columns:1fr;gap:28px;margin-bottom:72px;direction:ltr;}
+  .fillo-wrap{padding:18px;border-radius:14px;}
+  .footer-grid{grid-template-columns:1fr;gap:26px;}
+  .footer-bottom{align-items:flex-start;flex-direction:column;gap:12px;}
+  .cta-sec{padding:72px 18px;}
+  .cta-illo{margin-bottom:24px;}
+  .cta-btns{flex-direction:column;}
+  .cbw,.cbg{width:100%;}
+  #pricing .fade[style*="display:flex"]{display:block!important;}
+  #pricing .fade[style*="display:flex"] > div:last-child{text-align:left!important;margin:16px 0 0!important;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <rect x="2" y="2" width="28" height="28" rx="9" fill="#6B4FBB"/>
+      <path d="M16 6.5L23 9.3V15.2C23 20.1 20.1 23.6 16 25.7C11.9 23.6 9 20.1 9 15.2V9.3L16 6.5Z" fill="rgba(255,255,255,0.18)" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/>
+      <circle cx="16" cy="12.2" r="2.1" fill="#fff"/>
+      <circle cx="12.3" cy="18.2" r="1.8" fill="#F4C078"/>
+      <circle cx="19.7" cy="18.2" r="1.8" fill="#7FCFC2"/>
+      <path d="M16 14.4V16.2M14.2 17.1L12.9 17.7M17.8 17.1L19.1 17.7" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <div class="nav-logo-text">BenefitsOS</div>
+  </div>
+  <div class="nav-links">
+    <a class="nav-link" href="#products">Products</a>
+    <a class="nav-link" href="#how">How it works</a>
+    <a class="nav-link" href="#moats">Why us</a>
+    <a class="nav-link" href="#pricing">Pricing</a>
+    <a class="nav-link" href="#">Docs</a>
+  </div>
+  <div class="nav-right">
+    <a class="btn-login" href="/login">Log in</a>
+    <a class="btn-primary" href="/demo">Book a demo</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg">
+    <div class="blob blob1"></div><div class="blob blob2"></div><div class="blob blob3"></div>
+    <div class="hero-grid"></div>
+  </div>
+  <div class="hero-eyebrow"><div class="ed"></div><div class="et">Private beta · Texas brokers · HIPAA compliant</div></div>
+  <h1 class="hero-h1">The <em>AI operating system</em><br>for employee benefits</h1>
+  <p class="hero-sub">From employer intake and quote normalization through carrier negotiation, contract review, stop-loss modeling, billing audit, and pharmacy analytics. One platform. 40 fewer hours per case.</p>
+  <div class="hero-ctas">
+    <a class="btn-hero" href="/demo">Book a demo →</a>
+    <a class="btn-hero-outline" href="#how">See how it works</a>
+  </div>
+
+  <!-- HERO ILLUSTRATION: the audit pipeline, isometric Fly.io style -->
+  <div class="hero-illo">
+    <svg viewBox="0 0 1000 440" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="pg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8B70D4"/><stop offset="1" stop-color="#6B4FBB"/></linearGradient>
+        <linearGradient id="pg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F8F6FF"/></linearGradient>
+        <linearGradient id="amber" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F4C078"/><stop offset="1" stop-color="#E8943A"/></linearGradient>
+        <linearGradient id="teal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7FCFC2"/><stop offset="1" stop-color="#3BA89A"/></linearGradient>
+        <linearGradient id="coral" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F0A092"/><stop offset="1" stop-color="#E36B5C"/></linearGradient>
+        <filter id="sh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#6B4FBB" flood-opacity="0.12"/></filter>
+      </defs>
+
+      <!-- connecting flow lines -->
+      <path d="M205 200 C 260 200, 260 160, 320 160" stroke="#D4C8F4" stroke-width="2.5" stroke-dasharray="6 6" fill="none"/>
+      <path d="M205 220 C 260 220, 260 280, 320 280" stroke="#D4C8F4" stroke-width="2.5" stroke-dasharray="6 6" fill="none"/>
+      <path d="M500 160 C 560 160, 560 210, 620 210" stroke="#D4C8F4" stroke-width="2.5" stroke-dasharray="6 6" fill="none"/>
+      <path d="M500 280 C 560 280, 560 230, 620 230" stroke="#D4C8F4" stroke-width="2.5" stroke-dasharray="6 6" fill="none"/>
+      <path d="M800 220 C 850 220, 850 220, 895 220" stroke="#AE98E4" stroke-width="2.5" fill="none"/>
+
+      <!-- 1. Roster upload card -->
+      <g filter="url(#sh)">
+        <rect x="40" y="160" width="165" height="100" rx="14" fill="url(#pg2)" stroke="#E6E1F5" stroke-width="1.5"/>
+        <rect x="56" y="178" width="34" height="34" rx="9" fill="url(#pg)"/>
+        <path d="M67 195 L71 199 L80 189" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <rect x="100" y="182" width="80" height="7" rx="3.5" fill="#2D2545"/>
+        <rect x="100" y="195" width="55" height="6" rx="3" fill="#A89EC8"/>
+        <rect x="56" y="226" width="133" height="20" rx="6" fill="#F3F1FB"/>
+        <text x="66" y="240" font-family="DM Mono, monospace" font-size="10" fill="#6B5F8A">735 dependents</text>
+      </g>
+      <text x="48" y="150" font-family="DM Mono, monospace" font-size="9" letter-spacing="2" fill="#A89EC8">CSV / ADP</text>
+
+      <!-- 2. AI scoring engine (center hub) -->
+      <g filter="url(#sh)">
+        <rect x="320" y="120" width="180" height="200" rx="16" fill="url(#pg)"/>
+        <circle cx="410" cy="180" r="34" fill="rgba(255,255,255,0.15)"/>
+        <circle cx="410" cy="180" r="22" fill="rgba(255,255,255,0.9)"/>
+        <path d="M402 180 L408 186 L420 172" stroke="#6B4FBB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <rect x="345" y="232" width="130" height="9" rx="4.5" fill="rgba(255,255,255,0.9)"/>
+        <rect x="345" y="250" width="95" height="7" rx="3.5" fill="rgba(255,255,255,0.5)"/>
+        <rect x="345" y="272" width="60" height="22" rx="6" fill="rgba(255,255,255,0.2)"/>
+        <text x="356" y="287" font-family="DM Mono, monospace" font-size="10" fill="#fff">Risk scored</text>
+        <rect x="413" y="272" width="62" height="22" rx="6" fill="rgba(255,255,255,0.2)"/>
+        <text x="424" y="287" font-family="DM Mono, monospace" font-size="10" fill="#fff">Claude AI</text>
+      </g>
+      <text x="328" y="110" font-family="DM Mono, monospace" font-size="9" letter-spacing="2" fill="#A89EC8">AI ENGINE</text>
+
+      <!-- 3a. Document card (top) -->
+      <g filter="url(#sh)">
+        <rect x="620" y="120" width="180" height="90" rx="14" fill="url(#pg2)" stroke="#E6E1F5" stroke-width="1.5"/>
+        <rect x="636" y="136" width="42" height="56" rx="6" fill="#FFF" stroke="#E6E1F5" stroke-width="1.5"/>
+        <rect x="642" y="143" width="30" height="5" rx="2.5" fill="#AE98E4"/>
+        <rect x="642" y="152" width="24" height="4" rx="2" fill="#D4C8F4"/>
+        <rect x="642" y="160" width="28" height="4" rx="2" fill="#D4C8F4"/>
+        <circle cx="657" cy="178" r="8" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.5"/>
+        <path d="M653 178 L656 181 L661 175" stroke="#16A34A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <text x="692" y="148" font-family="DM Sans, sans-serif" font-size="11" font-weight="600" fill="#0F0D1A">Birth cert</text>
+        <text x="692" y="164" font-family="DM Mono, monospace" font-size="9" fill="#6B5F8A">94% confidence</text>
+        <rect x="692" y="174" width="64" height="18" rx="5" fill="#F0FDF4" stroke="#BBF7D0"/>
+        <text x="700" y="186" font-family="DM Mono, monospace" font-size="9" fill="#16A34A">Eligible</text>
+      </g>
+
+      <!-- 3b. Document card (bottom, flagged) -->
+      <g filter="url(#sh)">
+        <rect x="620" y="230" width="180" height="90" rx="14" fill="url(#pg2)" stroke="#E6E1F5" stroke-width="1.5"/>
+        <rect x="636" y="246" width="42" height="56" rx="6" fill="#FFF" stroke="#E6E1F5" stroke-width="1.5"/>
+        <rect x="642" y="253" width="30" height="5" rx="2.5" fill="#F0A092"/>
+        <rect x="642" y="262" width="24" height="4" rx="2" fill="#FECACA"/>
+        <rect x="642" y="270" width="28" height="4" rx="2" fill="#FECACA"/>
+        <circle cx="657" cy="288" r="8" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.5"/>
+        <path d="M654 285 L660 291 M660 285 L654 291" stroke="#DC2626" stroke-width="1.5" stroke-linecap="round"/>
+        <text x="692" y="258" font-family="DM Sans, sans-serif" font-size="11" font-weight="600" fill="#0F0D1A">Spouse</text>
+        <text x="692" y="274" font-family="DM Mono, monospace" font-size="9" fill="#6B5F8A">divorce on file</text>
+        <rect x="692" y="284" width="74" height="18" rx="5" fill="#FEF2F2" stroke="#FECACA"/>
+        <text x="700" y="296" font-family="DM Mono, monospace" font-size="9" fill="#DC2626">Ineligible</text>
+      </g>
+      <text x="628" y="110" font-family="DM Mono, monospace" font-size="9" letter-spacing="2" fill="#A89EC8">AI VERIFICATION</text>
+
+      <!-- 4. Savings result (right) -->
+      <g filter="url(#sh)">
+        <rect x="895" y="150" width="105" height="140" rx="16" fill="url(#amber)"/>
+        <text x="912" y="185" font-family="DM Mono, monospace" font-size="9" letter-spacing="1.5" fill="rgba(255,255,255,0.7)">SAVINGS</text>
+        <text x="912" y="218" font-family="DM Serif Display, serif" font-size="26" fill="#fff">$329K</text>
+        <rect x="912" y="232" width="70" height="6" rx="3" fill="rgba(255,255,255,0.4)"/>
+        <rect x="912" y="244" width="50" height="6" rx="3" fill="rgba(255,255,255,0.4)"/>
+        <text x="912" y="274" font-family="DM Mono, monospace" font-size="9" fill="rgba(255,255,255,0.8)">47 removed</text>
+      </g>
+
+      <!-- floating channel icons (outreach) -->
+      <g filter="url(#sh)">
+        <circle cx="265" cy="60" r="26" fill="url(#teal)"/>
+        <path d="M254 54 h22 v14 h-22 z" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M254 55 l11 8 l11 -8" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+      <g filter="url(#sh)">
+        <circle cx="345" cy="48" r="22" fill="url(#coral)"/>
+        <rect x="338" y="40" width="14" height="18" rx="3" fill="none" stroke="#fff" stroke-width="2"/>
+        <circle cx="345" cy="54" r="1.5" fill="#fff"/>
+      </g>
+      <g filter="url(#sh)">
+        <circle cx="420" cy="56" r="24" fill="#fff" stroke="#E6E1F5" stroke-width="1.5"/>
+        <rect x="409" y="49" width="22" height="15" rx="2" fill="none" stroke="#8B70D4" stroke-width="2"/>
+        <path d="M409 51 l11 7 l11 -7" fill="none" stroke="#8B70D4" stroke-width="2"/>
+      </g>
+      <text x="248" y="20" font-family="DM Mono, monospace" font-size="9" letter-spacing="2" fill="#A89EC8">6-WAVE OUTREACH</text>
+    </svg>
+  </div>
+</div>
+
+<!-- PROOF -->
+<div class="proof-bar">
+  <div class="proof-item"><div class="proof-val" style="color:var(--p500);">$100B+</div><div class="proof-lbl">Broker commission market</div></div>
+  <div class="proof-div"></div>
+  <div class="proof-item"><div class="proof-val" style="color:var(--amber);">40 hrs</div><div class="proof-lbl">Manual work saved per case</div></div>
+  <div class="proof-div"></div>
+  <div class="proof-item"><div class="proof-val" style="color:var(--teal);">10%</div><div class="proof-lbl">Stop-loss pressure in 2025</div></div>
+  <div class="proof-div"></div>
+  <div class="proof-item"><div class="proof-val" style="color:var(--coral);">13</div><div class="proof-lbl">Agents across renewal workflow</div></div>
+  <div class="proof-div"></div>
+  <div class="proof-item"><div class="proof-val" style="color:var(--ink);">HIPAA</div><div class="proof-lbl">Built for benefits data</div></div>
+</div>
+
+<!-- PRODUCTS -->
+<section class="products-bg" id="products">
+  <div class="container">
+    <div class="centered fade">
+      <div class="sec-ey">Five products. One platform.</div>
+      <h2 class="sec-h" style="max-width:580px;margin:0 auto 14px;">Everything a broker needs, <em style="font-style:italic;color:var(--p500);">fully automated</em></h2>
+      <p class="sec-sub" style="margin:0 auto;">Each product is standalone. Each feeds the next. Click any product to see its end-to-end process diagram.</p>
+    </div>
+    <div class="products-horiz fade">
+      <div class="prod-card star" role="button" tabindex="0" data-product="audit" aria-pressed="true">
+        <svg class="prod-illo" viewBox="0 0 120 80" fill="none"><rect x="20" y="14" width="50" height="58" rx="6" fill="rgba(255,255,255,0.95)"/><rect x="28" y="24" width="30" height="4" rx="2" fill="#AE98E4"/><rect x="28" y="33" width="24" height="3" rx="1.5" fill="#D4C8F4"/><rect x="28" y="40" width="28" height="3" rx="1.5" fill="#D4C8F4"/><circle cx="78" cy="50" r="20" fill="#E8943A"/><path d="M70 50 l6 6 l12 -13" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        <div class="prod-num">01</div>
+        <div class="prod-name">Dependent Eligibility Audit</div>
+        <div class="prod-desc">AI verifies every dependent. Claude Vision reads birth & marriage certs. 6-wave outreach. Avg 9.5% ineligible found.</div>
+        <div class="prod-pill">Launch first</div>
+      </div>
+      <div class="prod-card" role="button" tabindex="0" data-product="renewal" aria-pressed="false">
+        <svg class="prod-illo" viewBox="0 0 120 80" fill="none"><rect x="30" y="12" width="44" height="56" rx="6" fill="#fff" stroke="#E6E1F5" stroke-width="1.5"/><rect x="38" y="22" width="28" height="4" rx="2" fill="#6B4FBB"/><rect x="38" y="31" width="22" height="3" rx="1.5" fill="#D4C8F4"/><rect x="38" y="38" width="26" height="3" rx="1.5" fill="#D4C8F4"/><rect x="38" y="45" width="20" height="3" rx="1.5" fill="#D4C8F4"/><circle cx="80" cy="44" r="18" fill="#8B70D4"/><path d="M73 44 h14 M80 37 v14" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>
+        <div class="prod-num">02</div>
+        <div class="prod-name">Benefits Renewal</div>
+        <div class="prod-desc">RFP, quote normalization, financial modeling, negotiation playbook, contract review. 40+ hours saved per case.</div>
+        <div class="prod-pill">Core platform</div>
+      </div>
+      <div class="prod-card" role="button" tabindex="0" data-product="pharmacy" aria-pressed="false">
+        <svg class="prod-illo" viewBox="0 0 120 80" fill="none"><rect x="36" y="20" width="48" height="40" rx="20" fill="#3BA89A" transform="rotate(45 60 40)"/><rect x="52" y="36" width="16" height="8" rx="4" fill="#fff"/><circle cx="44" cy="30" r="6" fill="#7FCFC2"/><circle cx="78" cy="52" r="6" fill="#7FCFC2"/></svg>
+        <div class="prod-num">03</div>
+        <div class="prod-name">Pharmacy Analytics</div>
+        <div class="prod-desc">MediSpan AWP engine, Rx rebate audit, specialty drug exposure flagging. Built for self-funded employers.</div>
+        <div class="prod-pill">Self-funded</div>
+      </div>
+      <div class="prod-card" role="button" tabindex="0" data-product="post" aria-pressed="false">
+        <svg class="prod-illo" viewBox="0 0 120 80" fill="none"><rect x="30" y="44" width="12" height="22" rx="3" fill="#D4C8F4"/><rect x="48" y="32" width="12" height="34" rx="3" fill="#AE98E4"/><rect x="66" y="22" width="12" height="44" rx="3" fill="#8B70D4"/><rect x="84" y="36" width="12" height="30" rx="3" fill="#6B4FBB"/><path d="M30 40 L54 30 L72 18 L90 30" stroke="#E8943A" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="prod-num">04</div>
+        <div class="prod-name">Post-Enrollment</div>
+        <div class="prod-desc">Monthly billing reconciliation, claims analytics, stop-loss modeling, ACA tracking. Year-round engagement.</div>
+        <div class="prod-pill">Recurring</div>
+      </div>
+      <div class="prod-card" role="button" tabindex="0" data-product="employee" aria-pressed="false">
+        <svg class="prod-illo" viewBox="0 0 120 80" fill="none"><circle cx="60" cy="30" r="14" fill="#8B70D4"/><path d="M38 66 C38 52 50 48 60 48 C70 48 82 52 82 66" fill="#D4C8F4"/><circle cx="88" cy="26" r="12" fill="#E8943A"/><text x="88" y="31" font-family="DM Sans" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">?</text></svg>
+        <div class="prod-num">05</div>
+        <div class="prod-name">Employee Decision Support</div>
+        <div class="prod-desc">Open enrollment AI: 5 questions, personalized plan pick. Reduces HR support calls 30–40%.</div>
+        <div class="prod-pill">Open enrollment</div>
+      </div>
+    </div>
+    <div class="product-process fade" id="product-process" aria-live="polite">
+      <div class="process-copy">
+        <div>
+          <div class="process-label" id="process-label">01 · Dependent Eligibility Audit</div>
+          <h3 class="process-title" id="process-title">Verify every dependent before renewal starts.</h3>
+          <p class="process-desc" id="process-desc">BenefitsOS imports the roster, runs risk scoring, automates outreach, reads documents with Claude Vision, routes exceptions to broker review, and creates the savings report.</p>
+        </div>
+        <div class="process-outcome">
+          <span>Output</span>
+          <strong id="process-outcome">Clean census, ineligible dependents removed, audit report ready for the CFO.</strong>
+        </div>
+      </div>
+      <div class="process-visual">
+        <div class="process-chip" id="process-chip">End-to-end process</div>
+        <div class="process-flow" id="process-flow"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS — Fly.io alternating illustrated blocks -->
+<section class="how-bg" id="how">
+  <div class="container">
+
+    <!-- Block 1: Data intake -->
+    <div class="fblock fade">
+      <div>
+        <div class="ftag">Step 1 — Employer intake</div>
+        <h2 class="fh">Upload the case file.<br><em>We structure the renewal.</em></h2>
+        <p class="fp">Drop the census, current plan, contribution strategy, claims summary, and carrier responses. BenefitsOS turns the messy renewal packet into a clean case workspace with funding type, renewal dates, plan design, stop-loss exposure, and review flags.</p>
+        <a class="flink" href="#">See the intake engine →</a>
+      </div>
+      <div class="fillo-wrap">
+        <svg viewBox="0 0 440 280" fill="none">
+          <defs><linearGradient id="b1p" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8B70D4"/><stop offset="1" stop-color="#6B4FBB"/></linearGradient></defs>
+          <!-- upload zone -->
+          <rect x="30" y="40" width="180" height="200" rx="14" fill="#fff" stroke="#D4C8F4" stroke-width="2" stroke-dasharray="8 6"/>
+          <circle cx="120" cy="100" r="26" fill="#EDE8FC"/>
+          <path d="M120 90 v22 M111 99 l9 -9 l9 9" stroke="#6B4FBB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <rect x="70" y="136" width="100" height="8" rx="4" fill="#2D2545"/>
+          <rect x="84" y="152" width="72" height="6" rx="3" fill="#A89EC8"/>
+          <rect x="60" y="186" width="120" height="32" rx="8" fill="#6B4FBB"/>
+          <text x="120" y="206" font-family="DM Sans" font-size="12" font-weight="600" fill="#fff" text-anchor="middle">Import roster</text>
+          <!-- results stack -->
+          <rect x="240" y="44" width="170" height="44" rx="10" fill="#FEF2F2" stroke="#FECACA" stroke-width="1.5"/>
+          <circle cx="262" cy="66" r="11" fill="#fff" stroke="#DC2626" stroke-width="1.5"/><path d="M258 62 l8 8 M266 62 l-8 8" stroke="#DC2626" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="282" y="62" font-family="DM Sans" font-size="11" font-weight="600" fill="#DC2626">Auto-ineligible</text>
+          <text x="282" y="76" font-family="DM Mono" font-size="9" fill="#6B5F8A">12 · age 26+</text>
+          <rect x="240" y="98" width="170" height="44" rx="10" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1.5"/>
+          <circle cx="262" cy="120" r="11" fill="#fff" stroke="#D97706" stroke-width="1.5"/><path d="M262 115 v6 M262 124 v.5" stroke="#D97706" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="282" y="116" font-family="DM Sans" font-size="11" font-weight="600" fill="#D97706">High risk</text>
+          <text x="282" y="130" font-family="DM Mono" font-size="9" fill="#6B5F8A">132 · address gap</text>
+          <rect x="240" y="152" width="170" height="44" rx="10" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1.5"/>
+          <circle cx="262" cy="174" r="11" fill="#fff" stroke="#16A34A" stroke-width="1.5"/><path d="M258 174 l3 3 l5 -6" stroke="#16A34A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <text x="282" y="170" font-family="DM Sans" font-size="11" font-weight="600" fill="#16A34A">Low risk</text>
+          <text x="282" y="184" font-family="DM Mono" font-size="9" fill="#6B5F8A">591 · standard</text>
+          <rect x="240" y="206" width="170" height="34" rx="9" fill="#F8F6FF" stroke="#E6E1F5"/>
+          <text x="325" y="227" font-family="DM Mono" font-size="9" fill="#6B5F8A" text-anchor="middle">USPS + SSA DMF checked</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Block 2: Outreach (flipped) -->
+    <div class="fblock flip fade">
+      <div>
+        <div class="ftag">Step 2 — Bid workflow</div>
+        <h2 class="fh">Carrier follow-up.<br><em>Without the spreadsheet chaos.</em></h2>
+        <p class="fp">BenefitsOS tracks RFP status, quote deadlines, carrier responses, missing fields, renewal deltas, and broker sign-off. Quotes are normalized into one schema before any recommendation, negotiation memo, or employer presentation is generated.</p>
+        <a class="flink" href="#">View the bid workflow →</a>
+      </div>
+      <div class="fillo-wrap">
+        <svg viewBox="0 0 440 280" fill="none">
+          <!-- vertical timeline -->
+          <line x1="60" y1="40" x2="60" y2="240" stroke="#D4C8F4" stroke-width="2.5"/>
+          <!-- wave 1 email done -->
+          <circle cx="60" cy="56" r="12" fill="#6B4FBB"/><path d="M55 56 l3 3 l7 -8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <rect x="88" y="42" width="320" height="32" rx="9" fill="#EDE8FC" stroke="#D4C8F4"/>
+          <rect x="100" y="52" width="24" height="12" rx="3" fill="#6B4FBB"/>
+          <text x="134" y="62" font-family="DM Sans" font-size="11" font-weight="600" fill="#2D2545">Day 0 · Email — initial notice + portal link</text>
+          <!-- wave 2 sms done -->
+          <circle cx="60" cy="104" r="12" fill="#6B4FBB"/><path d="M55 104 l3 3 l7 -8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <rect x="88" y="90" width="320" height="32" rx="9" fill="#EDE8FC" stroke="#D4C8F4"/>
+          <rect x="100" y="100" width="24" height="12" rx="3" fill="#3BA89A"/>
+          <text x="134" y="110" font-family="DM Sans" font-size="11" font-weight="600" fill="#2D2545">Day 3 · SMS — Twilio, non-responders only</text>
+          <!-- wave 3 active -->
+          <circle cx="60" cy="152" r="13" fill="#fff" stroke="#6B4FBB" stroke-width="3"/><circle cx="60" cy="152" r="5" fill="#6B4FBB"/>
+          <rect x="88" y="137" width="320" height="34" rx="9" fill="#F8F6FF" stroke="#6B4FBB" stroke-width="2"/>
+          <rect x="100" y="148" width="24" height="12" rx="3" fill="#8B70D4"/>
+          <text x="134" y="158" font-family="DM Sans" font-size="11" font-weight="600" fill="#6B4FBB">Day 7 · Reminder — active · 23 pending</text>
+          <!-- wave 4 pending -->
+          <circle cx="60" cy="200" r="12" fill="#fff" stroke="#D4C8F4" stroke-width="2"/>
+          <rect x="88" y="186" width="320" height="32" rx="9" fill="#FAFAFD" stroke="#E6E1F5"/>
+          <rect x="100" y="196" width="24" height="12" rx="3" fill="#E8943A"/>
+          <text x="134" y="206" font-family="DM Sans" font-size="11" fill="#A89EC8">Day 14 · Physical mail — Lob, $1.50/letter</text>
+          <!-- wave 5/6 collapsed -->
+          <circle cx="60" cy="234" r="9" fill="#fff" stroke="#D4C8F4" stroke-width="2"/>
+          <text x="88" y="238" font-family="DM Mono" font-size="10" fill="#A89EC8">Day 21 HR · Day 28 termination →</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Block 3: AI verification -->
+    <div class="fblock fade">
+      <div>
+        <div class="ftag">Step 3 — Negotiation intelligence</div>
+        <h2 class="fh">Claude reads every<br>quote and contract. <em>Then it finds leverage.</em></h2>
+        <p class="fp">AI extracts quote terms, stop-loss details, contract clauses, and renewal deltas. The negotiation agent compares the case against carrier concession history and generates counter-offers, BAFO requests, clause pushbacks, and the employer recommendation memo.</p>
+        <a class="flink" href="#">Read the technical docs →</a>
+      </div>
+      <div class="fillo-wrap" style="background:linear-gradient(135deg,#5238A8,#8B70D4);border-color:#8B70D4;">
+        <svg viewBox="0 0 440 280" fill="none">
+          <!-- document being scanned -->
+          <rect x="40" y="50" width="150" height="180" rx="12" fill="#fff"/>
+          <rect x="58" y="70" width="80" height="8" rx="4" fill="#6B4FBB"/>
+          <rect x="58" y="86" width="114" height="5" rx="2.5" fill="#D4C8F4"/>
+          <rect x="58" y="98" width="100" height="5" rx="2.5" fill="#D4C8F4"/>
+          <rect x="58" y="120" width="60" height="5" rx="2.5" fill="#A89EC8"/>
+          <rect x="58" y="132" width="114" height="5" rx="2.5" fill="#EDE8FC"/>
+          <rect x="58" y="144" width="90" height="5" rx="2.5" fill="#EDE8FC"/>
+          <rect x="58" y="170" width="60" height="5" rx="2.5" fill="#A89EC8"/>
+          <rect x="58" y="182" width="114" height="5" rx="2.5" fill="#EDE8FC"/>
+          <!-- scan line -->
+          <rect x="40" y="135" width="150" height="3" fill="#E8943A" opacity="0.9"/>
+          <rect x="40" y="130" width="150" height="14" fill="url(#scanG)" opacity="0.3"/>
+          <defs><linearGradient id="scanG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E8943A" stop-opacity="0"/><stop offset="1" stop-color="#E8943A"/></linearGradient></defs>
+          <!-- extracted fields panel -->
+          <rect x="220" y="50" width="180" height="100" rx="12" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.25)"/>
+          <text x="236" y="72" font-family="DM Mono" font-size="9" letter-spacing="1" fill="rgba(255,255,255,0.6)">EXTRACTED</text>
+          <text x="236" y="92" font-family="DM Sans" font-size="11" fill="#fff">Name: James Smith</text>
+          <text x="236" y="110" font-family="DM Sans" font-size="11" fill="#fff">DOB: 1999 · age 26</text>
+          <text x="236" y="128" font-family="DM Sans" font-size="11" fill="#fff">Parent: R. Smith ✓</text>
+          <!-- confidence + fraud -->
+          <rect x="220" y="162" width="86" height="68" rx="12" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.25)"/>
+          <text x="263" y="195" font-family="DM Serif Display" font-size="24" fill="#fff" text-anchor="middle">94%</text>
+          <text x="263" y="214" font-family="DM Mono" font-size="8" letter-spacing="1" fill="rgba(255,255,255,0.6)" text-anchor="middle">CONFIDENCE</text>
+          <rect x="314" y="162" width="86" height="68" rx="12" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.25)"/>
+          <text x="357" y="195" font-family="DM Serif Display" font-size="24" fill="#fff" text-anchor="middle">8</text>
+          <text x="357" y="214" font-family="DM Mono" font-size="8" letter-spacing="1" fill="rgba(255,255,255,0.6)" text-anchor="middle">FRAUD SCORE</text>
+        </svg>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- MOATS -->
+<section class="moats-bg" id="moats">
+  <div class="container">
+    <div class="centered fade">
+      <div class="sec-ey">Why BenefitsOS compounds</div>
+      <h2 class="sec-h" style="margin:0 auto 14px;">Data assets competitors can't replicate</h2>
+      <p class="sec-sub" style="margin:0 auto;">Code can be cloned. Two years of real carrier negotiation outcomes cannot.</p>
+    </div>
+    <div class="moat-hero fade" aria-hidden="true">
+      <svg viewBox="0 0 860 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="mhPurple" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8B70D4"/><stop offset="1" stop-color="#6B4FBB"/></linearGradient>
+          <linearGradient id="mhAmber" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F4C078"/><stop offset="1" stop-color="#E8943A"/></linearGradient>
+          <filter id="mhShadow" x="-20%" y="-30%" width="140%" height="160%"><feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#6B4FBB" flood-opacity="0.12"/></filter>
+        </defs>
+        <path d="M150 132 C245 54 330 54 430 132 C530 210 620 210 710 132" stroke="#D4C8F4" stroke-width="3" stroke-dasharray="7 9"/>
+        <path d="M150 132 C245 210 330 210 430 132 C530 54 620 54 710 132" stroke="#D4C8F4" stroke-width="3" stroke-dasharray="7 9"/>
+        <g filter="url(#mhShadow)">
+          <rect x="36" y="76" width="168" height="112" rx="18" fill="#fff" stroke="#E6E1F5" stroke-width="1.5"/>
+          <text x="62" y="108" font-family="DM Mono, monospace" font-size="10" letter-spacing="2" fill="#A89EC8">CASE DATA</text>
+          <rect x="62" y="124" width="86" height="8" rx="4" fill="#2D2545"/>
+          <rect x="62" y="142" width="118" height="7" rx="3.5" fill="#D4C8F4"/>
+          <rect x="62" y="160" width="72" height="7" rx="3.5" fill="#D4C8F4"/>
+        </g>
+        <g filter="url(#mhShadow)">
+          <rect x="334" y="42" width="192" height="176" rx="22" fill="url(#mhPurple)"/>
+          <circle cx="430" cy="106" r="34" fill="rgba(255,255,255,0.18)"/>
+          <circle cx="430" cy="106" r="21" fill="#fff"/>
+          <path d="M421 106 l7 7 l13 -17" stroke="#6B4FBB" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="430" y="160" text-anchor="middle" font-family="DM Serif Display, serif" font-size="26" fill="#fff">BenefitsOS</text>
+          <text x="430" y="181" text-anchor="middle" font-family="DM Mono, monospace" font-size="9" letter-spacing="1.5" fill="rgba(255,255,255,0.62)">INTELLIGENCE LAYER</text>
+        </g>
+        <g filter="url(#mhShadow)">
+          <rect x="656" y="52" width="168" height="64" rx="16" fill="#fff" stroke="#E6E1F5" stroke-width="1.5"/>
+          <circle cx="684" cy="84" r="13" fill="#F0FDF4" stroke="#16A34A"/>
+          <path d="M678 84 l4 4 l8 -10" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="710" y="81" font-family="DM Sans, sans-serif" font-size="13" font-weight="700" fill="#0F0D1A">Concessions</text>
+          <text x="710" y="98" font-family="DM Mono, monospace" font-size="9" fill="#6B5F8A">asked / won / logged</text>
+        </g>
+        <g filter="url(#mhShadow)">
+          <rect x="656" y="144" width="168" height="64" rx="16" fill="#fff" stroke="#E6E1F5" stroke-width="1.5"/>
+          <circle cx="684" cy="176" r="13" fill="#FEF2F2" stroke="#DC2626"/>
+          <path d="M680 172 l8 8 M688 172 l-8 8" stroke="#DC2626" stroke-width="2" stroke-linecap="round"/>
+          <text x="710" y="173" font-family="DM Sans, sans-serif" font-size="13" font-weight="700" fill="#0F0D1A">Clause risk</text>
+          <text x="710" y="190" font-family="DM Mono, monospace" font-size="9" fill="#6B5F8A">carrier patterns</text>
+        </g>
+        <g filter="url(#mhShadow)">
+          <rect x="382" y="226" width="96" height="34" rx="12" fill="url(#mhAmber)"/>
+          <text x="430" y="247" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="#fff">BENCHMARKS</text>
+        </g>
+      </svg>
+    </div>
+    <div class="moats-grid fade">
+      <div class="moat hl">
+        <svg class="moat-illo" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" fill="#EDE8FC"/><circle cx="24" cy="24" r="13" fill="none" stroke="#6B4FBB" stroke-width="2"/><circle cx="24" cy="24" r="6" fill="#6B4FBB"/><circle cx="24" cy="24" r="2.5" fill="#fff"/></svg>
+        <div class="moat-title">Carrier Concession Database</div>
+        <div class="moat-desc">Every negotiation round logged — what you asked, what they offered, what they conceded. By carrier, group size, SIC code, state. Predictive after 30 cases.</div>
+      </div>
+      <div class="moat">
+        <svg class="moat-illo" viewBox="0 0 48 48" fill="none"><rect x="12" y="8" width="24" height="32" rx="4" fill="#fff" stroke="#8B70D4" stroke-width="2"/><rect x="17" y="15" width="14" height="2.5" rx="1.25" fill="#AE98E4"/><rect x="17" y="21" width="11" height="2.5" rx="1.25" fill="#D4C8F4"/><circle cx="32" cy="32" r="9" fill="#E8943A"/><path d="M28 32 l3 3 l5 -6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        <div class="moat-title">Contract Clause Intelligence</div>
+        <div class="moat-desc">Every reviewed contract adds carrier-specific risky clauses to a pgvector semantic library. No attorney has this systematized for group health.</div>
+      </div>
+      <div class="moat">
+        <svg class="moat-illo" viewBox="0 0 48 48" fill="none"><circle cx="20" cy="20" r="11" fill="none" stroke="#6B4FBB" stroke-width="2.5"/><line x1="28" y1="28" x2="38" y2="38" stroke="#6B4FBB" stroke-width="2.5" stroke-linecap="round"/><path d="M16 20 l3 3 l5 -6" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        <div class="moat-title">Dependent Audit History</div>
+        <div class="moat-desc">Verified census per employer creates renewal lock-in. Switching means starting from zero. Each audit pre-populates the next renewal intake.</div>
+      </div>
+      <div class="moat">
+        <svg class="moat-illo" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="18" fill="none" stroke="#3BA89A" stroke-width="2"/><ellipse cx="24" cy="24" rx="8" ry="18" fill="none" stroke="#3BA89A" stroke-width="2"/><line x1="6" y1="24" x2="42" y2="24" stroke="#3BA89A" stroke-width="2"/><circle cx="30" cy="16" r="3" fill="#E8943A"/></svg>
+        <div class="moat-title">ZIP-Level Network Scoring</div>
+        <div class="moat-desc">"Does this carrier cover where my employees live?" — scored by employee ZIP from NCPDP + CMS data. Everyone else guesses.</div>
+      </div>
+      <div class="moat hl">
+        <svg class="moat-illo" viewBox="0 0 48 48" fill="none"><rect x="14" y="10" width="20" height="30" rx="10" fill="#EDE8FC"/><rect x="20" y="16" width="8" height="4" rx="2" fill="#6B4FBB"/><circle cx="24" cy="28" r="5" fill="#E8943A"/><rect x="22.5" y="28" width="3" height="7" rx="1.5" fill="#E8943A"/></svg>
+        <div class="moat-title">PBM Rebate Intelligence</div>
+        <div class="moat-desc">MediSpan AWP benchmarks applied to real employer Rx claims. Finds unrecovered rebates no broker surfaces manually.</div>
+      </div>
+      <div class="moat">
+        <svg class="moat-illo" viewBox="0 0 48 48" fill="none"><path d="M24 6 L40 13 V25 C40 34 33 40 24 43 C15 40 8 34 8 25 V13 Z" fill="#16A34A" opacity="0.12"/><path d="M24 6 L40 13 V25 C40 34 33 40 24 43 C15 40 8 34 8 25 V13 Z" fill="none" stroke="#16A34A" stroke-width="2"/><path d="M18 24 l4 4 l9 -10" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        <div class="moat-title">HIPAA from Day One</div>
+        <div class="moat-desc">Supabase + Anthropic BAA. Signed URLs only (15-min expiry). Documents retained 7 years then auto-deleted. SOC 2 in Year 2.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" style="background:var(--white);">
+  <div class="container">
+    <div class="centered fade">
+      <div class="sec-ey">Simple pricing</div>
+      <h2 class="sec-h" style="margin:0 auto 14px;">Pay for outcomes, not seats</h2>
+      <p class="sec-sub" style="margin:0 auto;">Every pricing model is built around documented savings, not software subscriptions.</p>
+    </div>
+    <div class="pricing-grid fade">
+      <div class="price-card">
+        <div class="pname">Dependent Audit</div>
+        <div class="pprice">$15<span style="font-size:18px;color:var(--muted);">/dep</span></div>
+        <div class="pper">Per dependent · one-time</div>
+        <div class="pdiv"></div>
+        <div class="pfeat"><span class="pcheck">✓</span>500 deps = $7,500 flat</div>
+        <div class="pfeat"><span class="pcheck">✓</span>AI document verification</div>
+        <div class="pfeat"><span class="pcheck">✓</span>6-wave automated outreach</div>
+        <div class="pfeat"><span class="pcheck">✓</span>Fraud detection included</div>
+        <div class="pfeat"><span class="pcheck">✓</span>Audit report PDF + savings calc</div>
+        <div class="pfeat"><span class="pcheck">✓</span>Broker white-label</div>
+        <a href="/demo" class="pbtn">Get started</a>
+      </div>
+      <div class="price-card feat">
+        <div class="fbadge">Most popular</div>
+        <div class="pname">Benefits Renewal</div>
+        <div class="pprice">$15K<span style="font-size:18px;color:rgba(255,255,255,0.6);">+</span></div>
+        <div class="pper">Per employer case · flat fee</div>
+        <div class="pdiv"></div>
+        <div class="pfeat"><span class="pcheck">✓</span>Full RFP → negotiation → contract</div>
+        <div class="pfeat"><span class="pcheck">✓</span>AI quote normalization (8 carriers)</div>
+        <div class="pfeat"><span class="pcheck">✓</span>Negotiation playbook (concession DB)</div>
+        <div class="pfeat"><span class="pcheck">✓</span>Contract clause risk flagging</div>
+        <div class="pfeat"><span class="pcheck">✓</span>Employer decision portal</div>
+        <div class="pfeat"><span class="pcheck">✓</span>Pre-filled from audit data</div>
+        <a href="/demo" class="pbtn">Book a demo</a>
+      </div>
+      <div class="price-card">
+        <div class="pname">Broker Platform</div>
+        <div class="pprice">$1.2K<span style="font-size:18px;color:var(--muted);">/mo</span></div>
+        <div class="pper">Per seat · annual billing</div>
+        <div class="pdiv"></div>
+        <div class="pfeat"><span class="pcheck">✓</span>Unlimited audit + renewal cases</div>
+        <div class="pfeat"><span class="pcheck">✓</span>Monthly billing reconciliation</div>
+        <div class="pfeat"><span class="pcheck">✓</span>Claims analytics dashboard</div>
+        <div class="pfeat"><span class="pcheck">✓</span>White-label employer portal</div>
+        <div class="pfeat"><span class="pcheck">✓</span>Carrier concession benchmarks</div>
+        <div class="pfeat"><span class="pcheck">✓</span>Priority support + SLA</div>
+        <a href="/demo" class="pbtn">Talk to us</a>
+      </div>
+    </div>
+    <div style="margin-top:16px;background:var(--p50);border:1.5px solid var(--p200);border-radius:14px;padding:20px 28px;display:flex;justify-content:space-between;align-items:center;" class="fade">
+      <div>
+        <div style="font-size:14px;font-weight:500;margin-bottom:4px;">Ongoing verification add-on</div>
+        <div style="font-size:13px;color:var(--muted);">Verify new dependents year-round. Catches divorces, deaths, over-age children between annual audits.</div>
+      </div>
+      <div style="text-align:right;flex-shrink:0;margin-left:40px;">
+        <div style="font-size:24px;font-weight:600;">$4<span style="font-size:14px;color:var(--muted);">/dep/mo</span></div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--placeholder);letter-spacing:1px;margin-top:3px;">Add to any plan</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-sec">
+  <div class="cta-illo" aria-hidden="true">
+    <svg viewBox="0 0 700 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="ctaPanel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="rgba(255,255,255,0.24)"/><stop offset="1" stop-color="rgba(255,255,255,0.08)"/></linearGradient>
+      </defs>
+      <path d="M104 112 C184 54 240 54 306 112 C372 170 426 170 506 112" stroke="rgba(255,255,255,0.34)" stroke-width="3" stroke-dasharray="7 9"/>
+      <rect x="46" y="68" width="132" height="82" rx="18" fill="url(#ctaPanel)" stroke="rgba(255,255,255,0.28)"/>
+      <text x="72" y="96" font-family="DM Mono, monospace" font-size="9" letter-spacing="1.5" fill="rgba(255,255,255,0.62)">CASE FILE</text>
+      <rect x="72" y="112" width="74" height="8" rx="4" fill="#fff" opacity="0.9"/>
+      <rect x="72" y="130" width="52" height="7" rx="3.5" fill="#fff" opacity="0.42"/>
+      <rect x="282" y="34" width="150" height="142" rx="22" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.3)"/>
+      <circle cx="357" cy="82" r="28" fill="#fff"/>
+      <path d="M346 82 l8 8 l16 -20" stroke="#6B4FBB" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="357" y="130" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" letter-spacing="1.4" fill="rgba(255,255,255,0.72)">RENEWAL ROOM</text>
+      <rect x="522" y="56" width="132" height="98" rx="18" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.28)"/>
+      <text x="548" y="88" font-family="DM Mono, monospace" font-size="9" letter-spacing="1.5" fill="rgba(255,255,255,0.62)">OUTPUT</text>
+      <text x="548" y="122" font-family="DM Serif Display, serif" font-size="30" fill="#fff">ready</text>
+      <rect x="548" y="136" width="70" height="7" rx="3.5" fill="#fff" opacity="0.45"/>
+    </svg>
+  </div>
+  <div class="cta-ey">Get started</div>
+  <h2 class="cta-h">Run your next renewal with<br>fewer spreadsheets and stronger leverage</h2>
+  <p class="cta-sub">Upload the case file, normalize carrier responses, generate a negotiation playbook, flag contract risk, and deliver a cleaner employer recommendation without weeks of manual analyst work.</p>
+  <div class="cta-btns">
+    <a class="cbw" href="/demo">Book a demo</a>
+    <a class="cbg" href="/login">Log in to your account</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo"><svg width="22" height="22" viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="9" fill="#6B4FBB"/><path d="M16 6.5L23 9.3V15.2C23 20.1 20.1 23.6 16 25.7C11.9 23.6 9 20.1 9 15.2V9.3L16 6.5Z" fill="rgba(255,255,255,0.18)" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><circle cx="16" cy="12.2" r="2.1" fill="#fff"/><circle cx="12.3" cy="18.2" r="1.8" fill="#F4C078"/><circle cx="19.7" cy="18.2" r="1.8" fill="#7FCFC2"/><path d="M16 14.4V16.2M14.2 17.1L12.9 17.7M17.8 17.1L19.1 17.7" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>BenefitsOS</div>
+        <div class="footer-tagline">The AI operating system for employee benefits consultants. Dependent audit, renewal workflow, pharmacy analytics — one platform.</div>
+        <div class="hipaa-badge"><div style="width:6px;height:6px;border-radius:50%;background:var(--ok);"></div>HIPAA Compliant · BAA Active</div>
+      </div>
+      <div><div class="footer-col-h">Products</div><a class="footer-lnk" href="#">Dependent Audit</a><a class="footer-lnk" href="#">Benefits Renewal</a><a class="footer-lnk" href="#">PBM Analytics</a><a class="footer-lnk" href="#">Post-Enrollment</a><a class="footer-lnk" href="#">Employee Portal</a></div>
+      <div><div class="footer-col-h">Resources</div><a class="footer-lnk" href="#">Documentation</a><a class="footer-lnk" href="#">Texas Benchmark Report</a><a class="footer-lnk" href="#">NABIP Partner Program</a><a class="footer-lnk" href="#">Blog</a><a class="footer-lnk" href="#">API Reference</a></div>
+      <div><div class="footer-col-h">Company</div><a class="footer-lnk" href="#">About</a><a class="footer-lnk" href="#">Security</a><a class="footer-lnk" href="#">Privacy Policy</a><a class="footer-lnk" href="#">Terms of Service</a><a class="footer-lnk" href="#">Contact</a></div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 BenefitsOS Inc. · Built in Dallas, TX</div>
+      <div class="footer-right">🔒 HIPAA · Encrypted at rest · SOC 2 in progress</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}})},{threshold:0.08});
+document.querySelectorAll('.fade').forEach(el=>io.observe(el));
+
+const productProcesses = {
+  audit: {
+    label: '01 · Dependent Eligibility Audit',
+    title: 'Verify every dependent before renewal starts.',
+    desc: 'BenefitsOS imports the roster, runs risk scoring, automates outreach, reads documents with Claude Vision, routes exceptions to broker review, and creates the savings report.',
+    outcome: 'Clean census, ineligible dependents removed, audit report ready for the CFO.',
+    chip: 'Audit pipeline',
+    theme: { accent: '#6B4FBB', secondary: '#E8943A', left: 'CSV / ADP', center: 'AI ENGINE', right: 'AI VERIFICATION', result: '$329K' },
+    steps: [
+      ['Roster intake', 'CSV, ADP export, census fields, dependent relationships.'],
+      ['Risk scoring', 'Age, address mismatch, enrollment anomaly, missing proof.'],
+      ['AI verification', 'Claude Vision reads birth certificates, marriage certificates, and uploaded proof.'],
+      ['Savings report', 'Broker review queue, final eligibility file, projected annual savings.']
+    ]
+  },
+  renewal: {
+    label: '02 · Benefits Renewal',
+    title: 'Run the renewal from RFP to signed contract.',
+    desc: 'The core BenefitsOS workflow turns scattered PDFs, spreadsheets, carrier emails, and plan details into a controlled renewal room for brokers and employers.',
+    outcome: 'Normalized quote comparison, negotiation playbook, contract risk map, and employer recommendation memo.',
+    chip: 'Renewal command center',
+    theme: { accent: '#6B4FBB', secondary: '#3BA89A', left: 'EMPLOYER FILE', center: 'RENEWAL ENGINE', right: 'CARRIER BIDS', result: '-7.4%' },
+    steps: [
+      ['Employer intake', 'Census, current plan, contribution strategy, claims summary, funding type.'],
+      ['RFP and bids', 'Carrier shortlist, RFP package, deadline tracking, missing-field alerts.'],
+      ['Quote modeling', 'Premium, PEPM, plan richness, network disruption, stop-loss exposure.'],
+      ['Negotiate and bind', 'Counter-offers, BAFO requests, clause pushbacks, final term sheet.']
+    ]
+  },
+  pharmacy: {
+    label: '03 · Pharmacy Analytics',
+    title: 'Find Rx waste before it hits renewal pricing.',
+    desc: 'BenefitsOS reads pharmacy utilization and PBM reports to expose specialty drug risk, rebate gaps, formulary problems, and self-funded cost drivers.',
+    outcome: 'PBM savings memo, specialty drug exposure map, rebate recovery targets, and renewal negotiation inputs.',
+    chip: 'Rx intelligence flow',
+    theme: { accent: '#3BA89A', secondary: '#E8943A', left: 'PBM DATA', center: 'RX ANALYTICS', right: 'REBATE REVIEW', result: '$148K' },
+    steps: [
+      ['Claims import', 'PBM report, Rx utilization, specialty drug file, AWP benchmarks.'],
+      ['Spend mapping', 'Top NDCs, therapeutic classes, high-cost claimants, PMPM trend.'],
+      ['Rebate audit', 'Expected vs. received rebates, spread pricing signals, carve-out options.'],
+      ['Action plan', 'Formulary edits, clinical programs, PBM pushback, employer savings memo.']
+    ]
+  },
+  post: {
+    label: '04 · Post-Enrollment',
+    title: 'Keep saving money after open enrollment closes.',
+    desc: 'BenefitsOS turns the signed renewal into a year-round operating cadence: billing reconciliation, claims analytics, stop-loss monitoring, and compliance tracking.',
+    outcome: 'Monthly discrepancy report, dispute package, claims trend view, and renewal-ready case history.',
+    chip: 'Year-round operations',
+    theme: { accent: '#8B70D4', secondary: '#E36B5C', left: 'MONTHLY BILL', center: 'RECONCILE', right: 'CLAIMS WATCH', result: '3.8%' },
+    steps: [
+      ['Invoice ingest', 'Carrier bill, active census, terminations, new hires, retro changes.'],
+      ['Reconcile', 'Identify terminated employees still billed, tier errors, duplicate lives.'],
+      ['Claims and stop-loss', 'Track PMPM trend, lasers, specific deductible, aggregate attachment.'],
+      ['Recover and learn', 'Carrier dispute packet, savings log, next-renewal benchmark data.']
+    ]
+  },
+  employee: {
+    label: '05 · Employee Decision Support',
+    title: 'Help employees choose the right plan.',
+    desc: 'The employee portal gives every worker a plain-language enrollment experience using workforce-specific plans, contribution strategy, and expected utilization.',
+    outcome: 'Higher confidence enrollment, fewer HR questions, cleaner elections, and better plan fit.',
+    chip: 'Enrollment guidance',
+    theme: { accent: '#8B70D4', secondary: '#3BA89A', left: 'PLAN OPTIONS', center: 'PLAN GUIDE', right: 'EMPLOYEE FIT', result: '30%' },
+    steps: [
+      ['Plan load', 'Medical, dental, vision, HSA/FSA, payroll contributions, employer rules.'],
+      ['Five questions', 'Family status, expected visits, prescriptions, risk tolerance, budget.'],
+      ['Recommendation', 'Best-fit plan, estimated annual cost, tradeoffs in plain English.'],
+      ['Enrollment kit', 'Personalized guide, HR-ready FAQs, final election summary.']
+    ]
+  }
+};
+
+const processEls = {
+  label: document.getElementById('process-label'),
+  title: document.getElementById('process-title'),
+  desc: document.getElementById('process-desc'),
+  outcome: document.getElementById('process-outcome'),
+  chip: document.getElementById('process-chip'),
+  flow: document.getElementById('process-flow')
+};
+
+function escapeHtml(value) {
+  return value.replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+}
+
+function shortLine(value, max = 26) {
+  return value.length > max ? `${value.slice(0, max - 1)}...` : value;
+}
+
+function productDiagram(item) {
+  const theme = item.theme;
+  const s = item.steps.map(step => [escapeHtml(step[0]), escapeHtml(shortLine(step[1], 30))]);
+  return `
+    <svg viewBox="0 0 1000 430" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeHtml(item.label)} process diagram">
+      <defs>
+        <linearGradient id="processMain" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${theme.accent}"/><stop offset="1" stop-color="#5238A8"/></linearGradient>
+        <linearGradient id="processResult" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F4C078"/><stop offset="1" stop-color="${theme.secondary}"/></linearGradient>
+        <filter id="processShadow" x="-20%" y="-25%" width="140%" height="150%"><feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#6B4FBB" flood-opacity="0.13"/></filter>
+      </defs>
+
+      <path d="M205 210 C275 210 285 172 350 172" stroke="#D4C8F4" stroke-width="3" stroke-dasharray="7 8" fill="none"/>
+      <path d="M205 228 C280 228 286 286 350 286" stroke="#D4C8F4" stroke-width="3" stroke-dasharray="7 8" fill="none"/>
+      <path d="M545 172 C604 172 620 198 675 198" stroke="#D4C8F4" stroke-width="3" stroke-dasharray="7 8" fill="none"/>
+      <path d="M545 286 C608 286 622 244 675 244" stroke="#D4C8F4" stroke-width="3" stroke-dasharray="7 8" fill="none"/>
+      <path d="M815 220 H905" stroke="#AE98E4" stroke-width="3"/>
+
+      <g filter="url(#processShadow)">
+        <rect x="42" y="160" width="164" height="104" rx="16" fill="#fff" stroke="#E6E1F5" stroke-width="1.5"/>
+        <rect x="62" y="184" width="38" height="38" rx="10" fill="${theme.accent}"/>
+        <path d="M74 204 L80 210 L91 196" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="112" y="188" width="72" height="8" rx="4" fill="#2D2545"/>
+        <rect x="112" y="204" width="50" height="7" rx="3.5" fill="#A89EC8"/>
+        <rect x="64" y="234" width="122" height="20" rx="6" fill="#F3F1FB"/>
+        <text x="74" y="248" font-family="DM Mono, monospace" font-size="10" fill="#6B5F8A">${s[0][0]}</text>
+      </g>
+      <text x="48" y="148" font-family="DM Mono, monospace" font-size="9" letter-spacing="2" fill="#A89EC8">${theme.left}</text>
+
+      <g filter="url(#processShadow)">
+        <rect x="350" y="126" width="195" height="204" rx="18" fill="url(#processMain)"/>
+        <circle cx="448" cy="188" r="38" fill="rgba(255,255,255,0.18)"/>
+        <circle cx="448" cy="188" r="24" fill="rgba(255,255,255,0.94)"/>
+        <path d="M438 188 L445 195 L459 178" stroke="${theme.accent}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="382" y="244" width="132" height="10" rx="5" fill="rgba(255,255,255,0.9)"/>
+        <rect x="382" y="264" width="92" height="8" rx="4" fill="rgba(255,255,255,0.52)"/>
+        <rect x="382" y="292" width="66" height="24" rx="7" fill="rgba(255,255,255,0.2)"/>
+        <text x="394" y="308" font-family="DM Mono, monospace" font-size="10" fill="#fff">${s[1][0]}</text>
+        <rect x="456" y="292" width="58" height="24" rx="7" fill="rgba(255,255,255,0.2)"/>
+        <text x="466" y="308" font-family="DM Mono, monospace" font-size="10" fill="#fff">Claude AI</text>
+      </g>
+      <text x="358" y="112" font-family="DM Mono, monospace" font-size="9" letter-spacing="2" fill="#A89EC8">${theme.center}</text>
+
+      <g filter="url(#processShadow)">
+        <rect x="675" y="132" width="188" height="94" rx="16" fill="#fff" stroke="#E6E1F5" stroke-width="1.5"/>
+        <rect x="694" y="150" width="44" height="58" rx="7" fill="#fff" stroke="#E6E1F5" stroke-width="1.5"/>
+        <rect x="702" y="158" width="30" height="6" rx="3" fill="${theme.accent}"/>
+        <rect x="702" y="170" width="24" height="5" rx="2.5" fill="#D4C8F4"/>
+        <rect x="702" y="182" width="28" height="5" rx="2.5" fill="#D4C8F4"/>
+        <circle cx="716" cy="198" r="8" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.5"/>
+        <path d="M712 198 L715 201 L721 194" stroke="#16A34A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="754" y="163" font-family="DM Sans, sans-serif" font-size="12" font-weight="700" fill="#0F0D1A">${s[2][0]}</text>
+        <text x="754" y="181" font-family="DM Mono, monospace" font-size="9" fill="#6B5F8A">${s[2][1]}</text>
+        <rect x="754" y="192" width="74" height="20" rx="6" fill="#F0FDF4" stroke="#BBF7D0"/>
+        <text x="764" y="205" font-family="DM Mono, monospace" font-size="9" fill="#16A34A">Validated</text>
+      </g>
+
+      <g filter="url(#processShadow)">
+        <rect x="675" y="246" width="188" height="94" rx="16" fill="#fff" stroke="#E6E1F5" stroke-width="1.5"/>
+        <rect x="694" y="264" width="44" height="58" rx="7" fill="#fff" stroke="#E6E1F5" stroke-width="1.5"/>
+        <rect x="702" y="272" width="30" height="6" rx="3" fill="${theme.secondary}"/>
+        <rect x="702" y="284" width="24" height="5" rx="2.5" fill="#FECACA"/>
+        <rect x="702" y="296" width="28" height="5" rx="2.5" fill="#FECACA"/>
+        <circle cx="716" cy="312" r="8" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.5"/>
+        <path d="M713 309 L719 315 M719 309 L713 315" stroke="#DC2626" stroke-width="1.5" stroke-linecap="round"/>
+        <text x="754" y="277" font-family="DM Sans, sans-serif" font-size="12" font-weight="700" fill="#0F0D1A">${s[3][0]}</text>
+        <text x="754" y="295" font-family="DM Mono, monospace" font-size="9" fill="#6B5F8A">${s[3][1]}</text>
+        <rect x="754" y="306" width="82" height="20" rx="6" fill="#FEF2F2" stroke="#FECACA"/>
+        <text x="764" y="319" font-family="DM Mono, monospace" font-size="9" fill="#DC2626">Needs review</text>
+      </g>
+      <text x="684" y="112" font-family="DM Mono, monospace" font-size="9" letter-spacing="2" fill="#A89EC8">${theme.right}</text>
+
+      <g filter="url(#processShadow)">
+        <rect x="905" y="164" width="96" height="140" rx="18" fill="url(#processResult)"/>
+        <text x="922" y="196" font-family="DM Mono, monospace" font-size="9" letter-spacing="1.8" fill="rgba(255,255,255,0.72)">OUTPUT</text>
+        <text x="922" y="230" font-family="DM Serif Display, serif" font-size="28" fill="#fff">${theme.result}</text>
+        <rect x="922" y="248" width="58" height="7" rx="3.5" fill="rgba(255,255,255,0.45)"/>
+        <rect x="922" y="264" width="45" height="7" rx="3.5" fill="rgba(255,255,255,0.45)"/>
+        <text x="922" y="292" font-family="DM Mono, monospace" font-size="9" fill="rgba(255,255,255,0.85)">ready</text>
+      </g>
+    </svg>
+    <div class="process-mobile-list">
+      ${item.steps.map((step, index) => `<div><b>${String(index + 1).padStart(2, '0')} · ${escapeHtml(step[0])}</b><p>${escapeHtml(step[1])}</p></div>`).join('')}
+    </div>
+  `;
+}
+
+function renderProductProcess(key, shouldScroll = false) {
+  const item = productProcesses[key];
+  if (!item) return;
+  processEls.label.textContent = item.label;
+  processEls.title.textContent = item.title;
+  processEls.desc.textContent = item.desc;
+  processEls.outcome.textContent = item.outcome;
+  processEls.chip.textContent = item.chip;
+  processEls.flow.innerHTML = productDiagram(item);
+
+  document.querySelectorAll('.prod-card[data-product]').forEach(card => {
+    const active = card.dataset.product === key;
+    card.classList.toggle('star', active);
+    card.setAttribute('aria-pressed', String(active));
+  });
+
+  if (shouldScroll && window.innerWidth <= 900) {
+    document.getElementById('product-process').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+document.querySelectorAll('.prod-card[data-product]').forEach(card => {
+  card.addEventListener('click', () => renderProductProcess(card.dataset.product, true));
+  card.addEventListener('keydown', event => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      renderProductProcess(card.dataset.product, true);
+    }
+  });
+});
+
+renderProductProcess('audit');
+</script>
+</body>
+</html>
